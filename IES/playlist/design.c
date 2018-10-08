@@ -1,5 +1,6 @@
 #include "design.h"
 #include <stdio.h>
+#include <locale.h>
 #include <windows.h>
 #include <conio.h>
 
@@ -14,10 +15,27 @@ void gotoXY(int x, int y){
     SetConsoleCursorPosition(out, posicao);
 }
 
+void tamanho(){
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    SMALL_RECT sr;
+    COORD consoleSize;
+
+    consoleSize.X = 110;
+    consoleSize.Y = 30;
+
+    //aqui vc mexe no tamanho da tela
+    sr.Top = sr.Left = 0;
+    sr.Right = 80;
+    sr.Bottom = 15;
+
+    SetConsoleWindowInfo(console,TRUE,&sr);
+    SetConsoleScreenBufferSize(console,consoleSize);
+}
+
 void ad(){
     printf("\t*********************************************************************\n");
-    printf("\t|    Trouble Maker                                                  |\n");
-    printf("\t|                                                             v 0.1 |\n");
+    printf("\t*                      Trouble                                      *\n");
+    printf("\t* Copyright 2018                                              v 0.1 *\n");
     printf("\t*********************************************************************\n");
 }
 
@@ -26,17 +44,18 @@ int menu(){
 
     system("CLS");
     ad();
-    printf("\t ___________________________________________________________________\n");
+    printf("\t*********************************************************************\n");
     printf("\t|                                                                   |\n");
     printf("\t|  [1] - para adicionar uma musica.                                 |\n");
     printf("\t|  [2] - para criar uma playlist.                                   |\n");
-    printf("\t|  [3] - para consultar as musicas.                                 |\n");
+    printf("\t|  [3] - para mostrar todas as musicas.                             |\n");
     printf("\t|  [4] - para consultar uma playlist.                               |\n");
     printf("\t|  [5] - para adicionar uma musica existente em uma playlist.       |\n");
     printf("\t|  [0] - Sair                                                       |\n");
+    printf("\t|                                                                   |\n");
     printf("\t|                         Opcao:                                    |\n");
     printf("\t*********************************************************************\n");
-    gotoXY(40,12);
+    gotoXY(40,13);
     scanf("%d",&i);
 
     return i;

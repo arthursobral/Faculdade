@@ -25,6 +25,7 @@ typedef struct lista{
 
 void add(Music musicas[],int i);
 int consultarmusic(Music musicas[],int tam);
+void printamusic(Music musicas[],int tam);
 void consultarplaylist(Playlist play[],int tam);
 void criaplaylist(Playlist play[],int ip, Music musicas[],int im);
 void addnaplaylist(Playlist play[],int ip,Music musicas[],int im);

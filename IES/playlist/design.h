@@ -6,5 +6,6 @@ int menu();
 void menumusic();
 void menuout();
 void gotoXY(int x,int y);
+void tamanho();
 
 #endif
