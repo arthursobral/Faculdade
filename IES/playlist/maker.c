@@ -28,11 +28,20 @@ void consultarplaylist(Playlist play[],int tam){
     }
 }
 
-void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
-    int escolhap,i;
+int repetida(Music musicas[],int tam,Music m){
+    int i=0;
 
-    setlocale(LC_ALL,"Portuguese");
-    system("CLS");
+    for(i=0;i<tam;i++){
+        if(stricmp(musicas[i].titulo,m.titulo)==0 && stricmp(musicas[i].cantor,m.cantor)==0){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
+    int escolhap,i,aux;
+
     if(im == 0){
         printf("\t*********************************************************************\n");
         printf("\t*                        Nao ha musica.                             *\n");
@@ -41,23 +50,105 @@ void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
         return 0;
     }
     else if(ip == 0){
+        printf("\t*********************************************************************\n");
+        printf("\t*                        Nao ha playlist.                            *\n");
+        printf("\t*********************************************************************\n");
         system("PAUSE");
         return 0;
     }
+    N1:
+    system("CLS");
     printf("\t*********************************************************************\n");
-    printf("\t*                Deseja adicionar em qual playlist?                 *\n");
+    printf("\t*                   Deseja adicionar em qual playlist?              *\n");
+    printf("\t*                Digite [0] caso queira voltar para o menu.         *\n");
     printf("\t*                               Opcao:                              *\n");
     printf("\t*********************************************************************\n");
     printf("\n");
     printf("\t*********************************************************************\n");
+    printf("\t                               Playlist:                             \n");
     for(i=0;i<ip;i++){
-        printf("\t* [%d] - %s\n",i+1,play[i].titulo);
+        printf("\t [%d] - %s\n",i+1,play[i].titulo);
     }
-    printf("\t********************************************************************\n");
+    printf("\t*********************************************************************\n");
 
-    gotoXY(46,2);
+    gotoXY(46,3);
     scanf("%d",&escolhap);
+    escolhap--;
+
+    if(escolhap >= ip){
+        system("CLS");
+        printf("\t*********************************************************************\n");
+        printf("\t                          Opcao invalida.                           *\n");
+        printf("\t*********************************************************************\n");
+        system("PAUSE");
+        goto N1;
+    }
+    else if(escolhap <0){
+        return 0;
+    }
+    else{
+        int aux,i,caso,rep;
+        aux = consultamusic(musicas,im);
+        if(aux != 0){
+            printf("\t ___________________________________________________________________\n");
+            printf("\t|                 Que musica deseja adicionar?                      |\n");
+            printf("\t|         Caso nao queira mais adicionar musicas digite [0]         |\n");
+            printf("\t|                          Opcao:                                   |\n");
+            printf("\t|___________________________________________________________________|\n");
+            printamusic(musicas,im);
+            gotoXY(42,3);
+            scanf("%d",&caso);
+            caso--;
+            while(caso >= 0){
+                i=play[escolhap].tamanho;
+                if(caso>=im){
+                    system("CLS");
+                    printf("\t********************************************************************\n");
+                    printf("\t*                     Numero da musica invalido.                   *\n");
+                    printf("\t********************************************************************\n");
+                    system("PAUSE");
+                    system("CLS");
+                    goto FIM;
+                }
+                else if(caso<aux || caso>0){
+                    if(repetida(play[escolhap].musicas,i,musicas[caso])){
+                        system("CLS");
+                        printf("\t ___________________________________________________________________\n");
+                        printf("\t|           Essa musica ja existe nessa playlist.                   |\n");
+                        printf("\t|      Deseja adiciona-la novamente? [1] - Sim [0] - Nao            |\n");
+                        printf("\t|                          Opcao:                                   |\n");
+                        printf("\t|___________________________________________________________________|\n");
+                        gotoXY(42,3);
+                        scanf("%d",&rep);
+                        if(rep == 0){
+                            system("CLS");
+                            goto FIM;
+                        }
+                    }
+                    play[escolhap].musicas[i] = musicas[caso];
+                    play[escolhap].tamanho++;
+                }
+                system("CLS");
+                printf("\t*********************************************************************\n");
+                printf("\t*                   Musica adicionada com sucesso!                  *\n");
+                printf("\t*********************************************************************\n");
+                system("PAUSE");
+                FIM:system("CLS");
+                printf("\t ___________________________________________________________________\n");
+                printf("\t|                 Que musica deseja adicionar?                      |\n");
+                printf("\t|         Caso nao queira mais adicionar musicas digite [0]         |\n");
+                printf("\t|                          Opcao:                                   |\n");
+                printf("\t|___________________________________________________________________|\n");
+                printamusic(musicas,im);
+                gotoXY(42,3);
+                scanf("%d",&caso);
+                caso--;
+            }
+            goto N1;
+        }
+    }
 }
+
 
 void printamusic(Music musicas[],int tam){
     int i=0;
@@ -99,16 +190,6 @@ int consultamusic(Music musicas[],int tam){
     return tam;
 }
 
-int repetida(Music musicas[],int tam,Music m){
-    int i=0;
-
-    for(i=0;i<tam;i++){
-        if(stricmp(musicas[i].titulo,m.titulo)==0 && stricmp(musicas[i].cantor,m.cantor)==0){
-            return 1;
-        }
-    }
-    return 0;
-}
 
 void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
     int caso;
@@ -147,22 +228,32 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
             scanf("%d",&caso);
             caso--;
             while(caso >= 0){
-                if(caso<aux || caso>0){
+                i=play[ip].tamanho;
+                if(caso>=im){
+                    system("CLS");
+                    printf("\t********************************************************************\n");
+                    printf("\t*                     Numero da musica invalido.                   *\n");
+                    printf("\t********************************************************************\n");
+                    system("PAUSE");
+                    system("CLS");
+                    goto MENU;
+                }
+                else if(caso<aux || caso>0){
                     if(repetida(play[ip].musicas,i,musicas[caso])){
                         system("CLS");
                         printf("\t ___________________________________________________________________\n");
-                        printf("\t|           Essa musica já existe na playlist %s                    |\n",play[ip].titulo);
+                        printf("\t|           Essa musica ja existe nessa playlist.                   |\n");
                         printf("\t|      Deseja adiciona-la novamente? [1] - Sim [0] - Nao            |\n");
                         printf("\t|                          Opcao:                                   |\n");
                         printf("\t|___________________________________________________________________|\n");
                         gotoXY(42,3);
                         scanf("%d",&rep);
                         if(rep == 0){
+                            system("CLS");
                             goto MENU;
                         }
                     }
                     //o 'i' serve para pegar a proxima musica e nao a proxima playlist
-                    i=play[ip].tamanho;
                     play[ip].musicas[i] = musicas[caso];
                     play[ip].tamanho++;
                 }
@@ -170,13 +261,15 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
                 printf("\t *******************************************************************\n");
                 printf("\t|                   Musica adicionada com sucesso!                  |\n");
                 printf("\t *******************************************************************\n");
+                system("PAUSE");
+                system("CLS");
                 MENU: printf("\t ___________________________________________________________________\n");
                 printf("\t|                 Que musica deseja adicionar?                      |\n");
                 printf("\t|                          Opcao:                                   |\n");
                 printf("\t|         Caso nao queira mais adicionar musicas digite [0]         |\n");
                 printf("\t|___________________________________________________________________|\n");
                 printamusic(musicas,im);
-                gotoXY(42,5);
+                gotoXY(42,2);
                 scanf("%d",&caso);
                 caso--;
             }
@@ -188,6 +281,7 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
     printf("\t*********************************************************************\n");
     system("PAUSE");
 }
+
 
 void add(Music musicas[],int i){
     system("CLS");

@@ -49,7 +49,7 @@ int menu(){
     printf("\t|  [1] - para adicionar uma musica.                                 |\n");
     printf("\t|  [2] - para criar uma playlist.                                   |\n");
     printf("\t|  [3] - para mostrar todas as musicas.                             |\n");
-    printf("\t|  [4] - para consultar uma playlist.                               |\n");
+    printf("\t|  [4] - para consultar as playlist.                                |\n");
     printf("\t|  [5] - para adicionar uma musica existente em uma playlist.       |\n");
     printf("\t|  [0] - Sair                                                       |\n");
     printf("\t|                                                                   |\n");
