@@ -30,6 +30,7 @@ void consultarplaylist(Playlist play[],int tam);
 void criaplaylist(Playlist play[],int ip, Music musicas[],int im);
 void addnaplaylist(Playlist play[],int ip,Music musicas[],int im);
 void printaplay(Playlist play[], int t);
-void editaplay(Playlist play[],int t);
+void editaplay(Playlist play[],int ip,Music musicas[],int im);
+void removedaplay(Playlist play[],int ip);
 
 #endif

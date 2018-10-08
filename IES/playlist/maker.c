@@ -149,7 +149,6 @@ void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
     }
 }
 
-
 void printamusic(Music musicas[],int tam){
     int i=0;
 
@@ -170,11 +169,13 @@ void printamusic(Music musicas[],int tam){
 }
 
 void printaplay(Playlist play[], int t){
-    int i;
+    int i,j;
 
-    for(i=0;i<play[t].tamanho;i++){
-        printf("[%d] '%s' - '%s'\n",i+1,play[t].musicas[i].titulo,play[t].musicas[i].cantor);
+    for(i=0;i<t;i++){
+        printf("\t*******************************************************************\n");
+        printf("\t [%d]Playlist de %s: %s\n",i+1,play[i].dono,play[i].titulo);
     }
+    printf("\t*******************************************************************\n");
 }
 
 int consultamusic(Music musicas[],int tam){
@@ -189,7 +190,6 @@ int consultamusic(Music musicas[],int tam){
     }
     return tam;
 }
-
 
 void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
     int caso;
@@ -215,6 +215,12 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
     scanf("%d",&caso);
     gotoXY(0,6);
     if(caso == 1){
+        if(im == 0){
+            printf("\t*********************************************************************\n");
+            printf("\t*                        Nao ha musica.                             *\n");
+            printf("\t*********************************************************************\n");
+            system("PAUSE");
+        }
         system("CLS");
         aux = consultamusic(musicas,im);
         if(aux != 0){
@@ -282,7 +288,6 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
     system("PAUSE");
 }
 
-
 void add(Music musicas[],int i){
     system("CLS");
     fflush(stdin);
@@ -315,5 +320,143 @@ void add(Music musicas[],int i){
         printf("\t|   Digite um número válido!                                        |\n");
         printf("\t|___________________________________________________________________|\n");
         goto NOTA;
+    }
+}
+
+void mudanome(Playlist play[],int ip){
+    int caso,i;
+
+    if(ip == 0){
+        printf("\n");
+        printf("\t*********************************************************************\n");
+        printf("\t*                     Nenhuma playlist criada.                      *\n");
+        printf("\t*********************************************************************\n");
+        system("PAUSE");
+        return 0;
+    }
+    OBS: system("CLS");
+    printf("\t*********************************************************************\n");
+    printf("\t*             Deseja mudar o nome de qual playlist?                 *\n");
+    printf("\t*                           Opcao:                                  *\n");
+    printf("\t*********************************************************************\n");
+    printaplay(play,ip);
+    gotoXY(42,2);
+    scanf("%d",&caso);
+    caso--;
+
+    if(caso > ip || caso < 0){
+        msgerro();
+        system("PAUSE");
+        goto OBS;
+    }
+    system("CLS");
+    printf("\t*********************************************************************\n");
+    printf("\t*                    Nome atual: %s                                 *\n",play[caso].titulo);
+    printf("\t*                Deseja mudar para qual nome?                       *\n");
+    printf("\t*                     Novo nome:                                    *\n");
+    printf("\t*********************************************************************\n");
+    gotoXY(40,3);
+    fflush(stdin);
+    scanf("%[^\n]%*c",play[caso].titulo);
+
+    nomesucesso();
+    system("PAUSE");
+}
+
+void removedaplay(Playlist play[],int ip){
+    int caso = 1,i,j,p,m;
+
+    while(caso == 1){
+        system("CLS");
+        printf("\t*********************************************************************\n");
+        printf("\t*                    Digite de qual playlist:                       *\n");
+        printf("\t*                  E a posicao dela na playlist:                    *\n");
+        printf("\t*********************************************************************\n");
+        printf("\t*********************************************************************\n");
+        printf("\t                           Playlists:                                \n");
+        for(i=0;i<ip;i++){
+            printf("\t[%d]Playlist de %s: %s\n",i+1,play[i].dono,play[i].titulo);
+            printf("\t                              Musicas:                             \n");
+            for(j=0;j<play[i].tamanho;j++){
+                printf("\t\t[%d] - '%s' de '%s'\n",j+1,play[i].musicas[j].titulo,play[i].musicas[j].cantor);
+            }
+        }
+        printf("\t*******************************************************************\n");
+
+        gotoXY(53,1);
+        scanf("%d",&p);
+        p--;
+        gotoXY(56,2);
+        scanf("%d",&m);
+        m--;
+
+        for(i=m;i<play[p].tamanho;i++){
+            play[p].musicas[i] = play[p].musicas[i++];
+        }
+        play[p].tamanho--;
+
+        system("CLS");
+        printf("\t*******************************************************************\n");
+        printf("\t*               Deseja remover mais alguma musica?                *\n");
+        printf("\t*                             Opcao:                              *\n");
+        printf("\t*                 Digite [0] - nao e [1] - sim                    *\n");
+        printf("\t*******************************************************************\n");
+        gotoXY(46,2);
+        scanf("%d",&caso);
+    }
+}
+
+void excluiplay(Playlist play[],int ip){
+    int caso = 1,i,escolhap;
+
+    while(caso==1){
+        printf("\t*********************************************************************\n");
+        printf("\t*             Digite qual playlist deseja remover:                  *\n");
+        printf("\t*********************************************************************\n");
+        printf("\n");
+        printf("\t*********************************************************************\n");
+        printf("\t                           Playlists:                                \n");
+        for(i=0;i<ip;i++){
+            printf("\t[%d]Playlist de %s: %s\n",i+1,play[i].dono,play[i].titulo);
+        }
+        printf("\t*********************************************************************\n");
+        gotoXY(58,1);
+        scanf("%d",&escolhap);
+
+
+    }
+}
+
+void editaplay(Playlist play[], int ip,Music musicas[],int im){
+    int caso;
+
+    system("CLS");
+    edita();
+    printaplay(play,ip);
+    gotoXY(43,6);
+    scanf("%d",&caso);
+    caso--;
+
+    while(caso>=0){
+        switch (caso){
+            case 0:
+                mudanome(play,ip);
+                break;
+            case 1:
+                addnaplaylist(play,ip,musicas,im);
+                break;
+            case 2:
+                removedaplay(play,ip);
+                break;
+            case 3:
+                //excluiplay(play,ip);
+                break;
+        }
+        printf("\n");
+        system("CLS");
+        edita();
+        gotoXY(43,6);
+        scanf("%d",&caso);
+        caso--;
     }
 }

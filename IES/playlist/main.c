@@ -10,8 +10,8 @@
 #define MAXP 30
 
 int main(){
-    tamanho();
     system("color F1");
+    tamanho();
     int caso;
     int tam=0,tamp=0;
     Music musicas[MAX];
@@ -54,7 +54,7 @@ int main(){
                 system("PAUSE");
                 break;
             case 5:
-                addnaplaylist(play,tamp,musicas,tam);
+                editaplay(play,tamp,musicas,tam);
                 break;
         }
         caso = menu();
@@ -62,7 +62,7 @@ int main(){
     system("CLS");
 
     menuout();
-    
+
     gotoXY(37,3);
     scanf("%d",&caso);
 
