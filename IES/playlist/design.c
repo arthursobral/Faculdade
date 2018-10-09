@@ -51,11 +51,12 @@ int menu(){
     printf("\t|  [3] - para mostrar todas as musicas.                             |\n");
     printf("\t|  [4] - para consultar as playlist.                                |\n");
     printf("\t|  [5] - Editar uma playlist.                                       |\n");
+    printf("\t|  [6] - Caso queira excluir uma playlist.                          |\n");
     printf("\t|  [0] - Sair                                                       |\n");
     printf("\t|                                                                   |\n");
     printf("\t|                         Opcao:                                    |\n");
     printf("\t*********************************************************************\n");
-    gotoXY(40,13);
+    gotoXY(40,14);
     scanf("%d",&i);
 
     return i;
@@ -94,7 +95,7 @@ void edita(){
     printf("\t*   [1] - Caso queira mudar o nome de uma playlist.                 *\n");
     printf("\t*   [2] - Caso queira adicionar uma musica a uma playlist.          *\n");
     printf("\t*   [3] - Caso queira remover uma musica da playlist.               *\n");
-    printf("\t*   [4] - Caso queira excluir uma playlist.                         *\n");
+    printf("\t*                                                                   *\n");
     printf("\t*                            Opcao:                                 *\n");
     printf("\t*********************************************************************\n");
 }
@@ -109,5 +110,12 @@ void nomesucesso(){
     system("CLS");
     printf("\t*********************************************************************\n");
     printf("\t*                  Nome alterado com sucesso!                       *\n");
+    printf("\t*********************************************************************\n");
+}
+
+void msgerroplay(){
+    system("CLS");
+    printf("\t*********************************************************************\n");
+    printf("\t*                  Nao ha nenhuma playlist!                         *\n");
     printf("\t*********************************************************************\n");
 }

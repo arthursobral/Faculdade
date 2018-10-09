@@ -10,5 +10,6 @@ void tamanho();
 void edita();
 void msgerro();
 void nomesucesso();
+void msgerroplay();
 
 #endif

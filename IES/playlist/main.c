@@ -56,6 +56,16 @@ int main(){
             case 5:
                 editaplay(play,tamp,musicas,tam);
                 break;
+            case 6:
+                if(tamp == 0){
+                    msgerroplay();
+                    system("PAUSE");
+                }
+                else{
+                    excluiplay(play,tamp);
+                    tamp--;
+                    break;
+                }
         }
         caso = menu();
     }

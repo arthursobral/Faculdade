@@ -67,7 +67,7 @@ void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
     printf("\t*********************************************************************\n");
     printf("\t                               Playlist:                             \n");
     for(i=0;i<ip;i++){
-        printf("\t [%d] - %s\n",i+1,play[i].titulo);
+        printf("\t [%d] - %s de %s\n",i+1,play[i].titulo,play[i].dono);
     }
     printf("\t*********************************************************************\n");
 
@@ -309,7 +309,7 @@ void add(Music musicas[],int i){
     NOTA1:gotoXY(57,10);
     scanf("%d:%d",&musicas[i].min,&musicas[i].seg);
     if(musicas[i].min>59 || musicas[i].seg>59){
-        printf("\t|   Digite um número válido!                                        |\n");
+        printf("\t|   Digite um numero valido!                                        |\n");
         printf("\t|___________________________________________________________________|\n");
         goto NOTA1;
     }
@@ -317,7 +317,7 @@ void add(Music musicas[],int i){
     NOTA: gotoXY(43,11);
     scanf("%d",&musicas[i].nota);
     if(musicas[i].nota<0 || musicas[i].nota>5){
-        printf("\t|   Digite um número válido!                                        |\n");
+        printf("\t|   Digite um numero valido!                                        |\n");
         printf("\t|___________________________________________________________________|\n");
         goto NOTA;
     }
@@ -396,11 +396,11 @@ void removedaplay(Playlist play[],int ip){
         play[p].tamanho--;
 
         system("CLS");
-        printf("\t*******************************************************************\n");
-        printf("\t*               Deseja remover mais alguma musica?                *\n");
-        printf("\t*                             Opcao:                              *\n");
-        printf("\t*                 Digite [0] - nao e [1] - sim                    *\n");
-        printf("\t*******************************************************************\n");
+        printf("\t*********************************************************************\n");
+        printf("\t*               Deseja remover mais alguma musica?                  *\n");
+        printf("\t*                             Opcao:                                *\n");
+        printf("\t*                 Digite [0] - nao e [1] - sim                      *\n");
+        printf("\t*********************************************************************\n");
         gotoXY(46,2);
         scanf("%d",&caso);
     }
@@ -409,7 +409,13 @@ void removedaplay(Playlist play[],int ip){
 void excluiplay(Playlist play[],int ip){
     int caso = 1,i,escolhap;
 
+    system("CLS");
     while(caso==1){
+        if(ip == 0){
+            msgerroplay();
+            system("PAUSE");
+            return 0;
+        }
         printf("\t*********************************************************************\n");
         printf("\t*             Digite qual playlist deseja remover:                  *\n");
         printf("\t*********************************************************************\n");
@@ -423,7 +429,24 @@ void excluiplay(Playlist play[],int ip){
         gotoXY(58,1);
         scanf("%d",&escolhap);
 
-
+        for(i=escolhap;i<ip;i++){
+            play[i] = play[i++];
+        }
+        system("CLS");
+        printf("\t*********************************************************************\n");
+        printf("\t*                 Playlist excluida com sucesso.                    *\n");
+        printf("\t*********************************************************************\n");
+        ip--;
+        system("PAUSE");
+        system("CLS");
+        printf("\t*********************************************************************\n");
+        printf("\t*           Caso queira remover mais uma - Digite [1]               *\n");
+        printf("\t*                  Caso contrario - Digite [0]                      *\n");
+        printf("\t*                             Opcao:                                *\n");
+        printf("\t*********************************************************************\n");
+        gotoXY(46,3);
+        scanf("%d",&caso);
+        system("CLS");
     }
 }
 
@@ -447,9 +470,6 @@ void editaplay(Playlist play[], int ip,Music musicas[],int im){
                 break;
             case 2:
                 removedaplay(play,ip);
-                break;
-            case 3:
-                //excluiplay(play,ip);
                 break;
         }
         printf("\n");
