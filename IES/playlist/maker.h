@@ -20,7 +20,9 @@ typedef struct lista{
     char dono[MAX];
     struct Musicas musicas[MAX];
     int tamanho;
-    int duracao;
+    int min;
+    int sec;
+    int hr;
 }Playlist;
 
 void add(Music musicas[],int i);

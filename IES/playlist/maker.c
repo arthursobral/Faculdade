@@ -9,6 +9,11 @@
 #define MAX 100
 #define MAXP 30
 
+///
+/// \brief printa todas as playlist existentes e sua musicas
+/// \param play, é o vetor de playlist
+/// \param tam, é quantas playlist existem
+///
 void consultarplaylist(Playlist play[],int tam){
     int i,j;
 
@@ -28,6 +33,13 @@ void consultarplaylist(Playlist play[],int tam){
     }
 }
 
+///
+/// \brief verifica se certa musica ja existe
+/// \param musicas, vetor de musicas
+/// \param tam, é o tamanho desse vetor
+/// \param m, é a musica a ser comparada se ja existe ou nao
+/// \return retorna 0 se ela nao for repetida e 1 caso contrario
+///
 int repetida(Music musicas[],int tam,Music m){
     int i=0;
 
@@ -39,30 +51,29 @@ int repetida(Music musicas[],int tam,Music m){
     return 0;
 }
 
+///
+/// \brief addnaplaylist
+/// \param play
+/// \param ip
+/// \param musicas
+/// \param im
+///
 void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
     int escolhap,i,aux;
 
     if(im == 0){
-        printf("\t*********************************************************************\n");
-        printf("\t*                        Nao ha musica.                             *\n");
-        printf("\t*********************************************************************\n");
+        msgerromusic();
         system("PAUSE");
         return 0;
     }
     else if(ip == 0){
-        printf("\t*********************************************************************\n");
-        printf("\t*                        Nao ha playlist.                            *\n");
-        printf("\t*********************************************************************\n");
+        msgerroplay();
         system("PAUSE");
         return 0;
     }
     N1:
     system("CLS");
-    printf("\t*********************************************************************\n");
-    printf("\t*                   Deseja adicionar em qual playlist?              *\n");
-    printf("\t*                Digite [0] caso queira voltar para o menu.         *\n");
-    printf("\t*                               Opcao:                              *\n");
-    printf("\t*********************************************************************\n");
+    msgchooseplay();
     printf("\n");
     printf("\t*********************************************************************\n");
     printf("\t                               Playlist:                             \n");
@@ -77,9 +88,7 @@ void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
 
     if(escolhap >= ip){
         system("CLS");
-        printf("\t*********************************************************************\n");
-        printf("\t                          Opcao invalida.                           *\n");
-        printf("\t*********************************************************************\n");
+        msgerro();
         system("PAUSE");
         goto N1;
     }
@@ -90,11 +99,7 @@ void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
         int aux,i,caso,rep;
         aux = consultamusic(musicas,im);
         if(aux != 0){
-            printf("\t ___________________________________________________________________\n");
-            printf("\t|                 Que musica deseja adicionar?                      |\n");
-            printf("\t|         Caso nao queira mais adicionar musicas digite [0]         |\n");
-            printf("\t|                          Opcao:                                   |\n");
-            printf("\t|___________________________________________________________________|\n");
+            menuchoosemusic();
             printamusic(musicas,im);
             gotoXY(42,3);
             scanf("%d",&caso);
@@ -103,9 +108,7 @@ void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
                 i=play[escolhap].tamanho;
                 if(caso>=im){
                     system("CLS");
-                    printf("\t********************************************************************\n");
-                    printf("\t*                     Numero da musica invalido.                   *\n");
-                    printf("\t********************************************************************\n");
+                    msgerro();
                     system("PAUSE");
                     system("CLS");
                     goto FIM;
@@ -113,11 +116,7 @@ void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
                 else if(caso<aux || caso>0){
                     if(repetida(play[escolhap].musicas,i,musicas[caso])){
                         system("CLS");
-                        printf("\t ___________________________________________________________________\n");
-                        printf("\t|           Essa musica ja existe nessa playlist.                   |\n");
-                        printf("\t|      Deseja adiciona-la novamente? [1] - Sim [0] - Nao            |\n");
-                        printf("\t|                          Opcao:                                   |\n");
-                        printf("\t|___________________________________________________________________|\n");
+                        menurepetida();
                         gotoXY(42,3);
                         scanf("%d",&rep);
                         if(rep == 0){
@@ -129,16 +128,10 @@ void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
                     play[escolhap].tamanho++;
                 }
                 system("CLS");
-                printf("\t*********************************************************************\n");
-                printf("\t*                   Musica adicionada com sucesso!                  *\n");
-                printf("\t*********************************************************************\n");
+                musicaddsucess();
                 system("PAUSE");
                 FIM:system("CLS");
-                printf("\t ___________________________________________________________________\n");
-                printf("\t|                 Que musica deseja adicionar?                      |\n");
-                printf("\t|         Caso nao queira mais adicionar musicas digite [0]         |\n");
-                printf("\t|                          Opcao:                                   |\n");
-                printf("\t|___________________________________________________________________|\n");
+                menuchoosemusic();
                 printamusic(musicas,im);
                 gotoXY(42,3);
                 scanf("%d",&caso);
@@ -149,13 +142,16 @@ void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
     }
 }
 
+///
+/// \brief printa todas as musicas existentes
+/// \param musicas, é o vetor que contém todas as musicas
+/// \param tam, é quantas musicas existem
+///
 void printamusic(Music musicas[],int tam){
     int i=0;
 
     if(tam==0){
-        printf("\t*********************************************************************\n");
-        printf("\t*            Nao contem nenhuma musica no momento.                  *\n");
-        printf("\t*********************************************************************\n");
+        msgerromusic();
         return 0;
     }else{
         printf("\n");
@@ -168,6 +164,11 @@ void printamusic(Music musicas[],int tam){
     }
 }
 
+///
+/// \brief printa todas as playlist existente, porém so o nome e o dono
+/// \param play, é o vetor de playlist
+/// \param t, é quantas playlist existem
+///
 void printaplay(Playlist play[], int t){
     int i,j;
 
@@ -178,19 +179,30 @@ void printaplay(Playlist play[], int t){
     printf("\t*******************************************************************\n");
 }
 
+///
+/// \brief consultamusic
+/// \param musicas
+/// \param tam
+/// \return
+///
 int consultamusic(Music musicas[],int tam){
     int i=0;
 
     system("CLS");
     if(tam==0){
-        printf("\t*********************************************************************\n");
-        printf("\t*            Nao contem nenhuma musica no momento.                  *\n");
-        printf("\t*********************************************************************\n");
+        msgerromusic();
         return 0;
     }
     return tam;
 }
 
+///
+/// \brief cria uma playlist, e caso ele queira adicionar uma musica na playlist ele ja adiciona
+/// \param play, é o vetor onde vai ser adicionado a playlist
+/// \param ip, é quantas playlist existem atualmente
+/// \param musicas, é o vetor de musicas
+/// \param im, é quantas musicas existem
+///
 void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
     int caso;
     int i,aux,rep;
@@ -213,12 +225,13 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
     printf("\t|___________________________________________________________________|\n");
     gotoXY(33,4);
     scanf("%d",&caso);
+    play[ip].hr = 0;
+    play[ip].min = 0;
+    play[ip].sec = 0;
     gotoXY(0,6);
     if(caso == 1){
         if(im == 0){
-            printf("\t*********************************************************************\n");
-            printf("\t*                        Nao ha musica.                             *\n");
-            printf("\t*********************************************************************\n");
+            msgerromusic();
             system("PAUSE");
         }
         system("CLS");
@@ -237,9 +250,7 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
                 i=play[ip].tamanho;
                 if(caso>=im){
                     system("CLS");
-                    printf("\t********************************************************************\n");
-                    printf("\t*                     Numero da musica invalido.                   *\n");
-                    printf("\t********************************************************************\n");
+                    msgerro();
                     system("PAUSE");
                     system("CLS");
                     goto MENU;
@@ -247,11 +258,7 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
                 else if(caso<aux || caso>0){
                     if(repetida(play[ip].musicas,i,musicas[caso])){
                         system("CLS");
-                        printf("\t ___________________________________________________________________\n");
-                        printf("\t|           Essa musica ja existe nessa playlist.                   |\n");
-                        printf("\t|      Deseja adiciona-la novamente? [1] - Sim [0] - Nao            |\n");
-                        printf("\t|                          Opcao:                                   |\n");
-                        printf("\t|___________________________________________________________________|\n");
+                        menurepetida();
                         gotoXY(42,3);
                         scanf("%d",&rep);
                         if(rep == 0){
@@ -264,9 +271,7 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
                     play[ip].tamanho++;
                 }
                 system("CLS");
-                printf("\t *******************************************************************\n");
-                printf("\t|                   Musica adicionada com sucesso!                  |\n");
-                printf("\t *******************************************************************\n");
+                musicaddsucess();
                 system("PAUSE");
                 system("CLS");
                 MENU: printf("\t ___________________________________________________________________\n");
@@ -288,6 +293,11 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
     system("PAUSE");
 }
 
+///
+/// \brief adiciona uma musica no banco de dados
+/// \param musicas, é onde ela vai ser amazenada
+/// \param i, é a posição dela
+///
 void add(Music musicas[],int i){
     system("CLS");
     fflush(stdin);
@@ -323,14 +333,16 @@ void add(Music musicas[],int i){
     }
 }
 
+///
+/// \brief muda o nome de uma playlist
+/// \param play, é o vetor de playlist existente
+/// \param ip, é quantas playlists existem
+///
 void mudanome(Playlist play[],int ip){
     int caso,i;
 
     if(ip == 0){
-        printf("\n");
-        printf("\t*********************************************************************\n");
-        printf("\t*                     Nenhuma playlist criada.                      *\n");
-        printf("\t*********************************************************************\n");
+        msgerroplay();
         system("PAUSE");
         return 0;
     }
@@ -363,6 +375,11 @@ void mudanome(Playlist play[],int ip){
     system("PAUSE");
 }
 
+///
+/// \brief remove uma ou mais musicas de uma playlist
+/// \param play, é o vetor de playlist existente
+/// \param ip, é quantas playlist existen
+///
 void removedaplay(Playlist play[],int ip){
     int caso = 1,i,j,p,m;
 
@@ -406,6 +423,13 @@ void removedaplay(Playlist play[],int ip){
     }
 }
 
+///
+/// \brief exclui uma ou mais playlists
+/// \param play, é vetor de playlists existentes
+/// \param ip, é quantas existem
+/// \pre nenhuma
+/// \post ip é atualizado para saber quantas existem
+///
 void excluiplay(Playlist play[],int ip){
     int caso = 1,i,escolhap;
 
@@ -450,6 +474,13 @@ void excluiplay(Playlist play[],int ip){
     }
 }
 
+///
+/// \brief abre uma seção difereten para edita alguma playlist
+/// \param play, é vetor de quantas playlists existentes
+/// \param ip, é quantas playlists existem
+/// \param musicas, é o vetor de musicas existentes
+/// \param im, é quantas musica existem
+///
 void editaplay(Playlist play[], int ip,Music musicas[],int im){
     int caso;
 
