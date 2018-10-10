@@ -21,10 +21,11 @@ typedef struct lista{
     struct Musicas musicas[MAX];
     int tamanho;
     int min;
-    int sec;
+    int seg;
     int hr;
 }Playlist;
 
+void avalia();
 void add(Music musicas[],int i);
 int consultarmusic(Music musicas[],int tam);
 void printamusic(Music musicas[],int tam);
@@ -35,5 +36,9 @@ void printaplay(Playlist play[], int t);
 void editaplay(Playlist play[],int ip,Music musicas[],int im);
 void removedaplay(Playlist play[],int ip);
 void excluiplay(Playlist play[], int ip);
+void duracaoplay(Playlist play);
+void cadastramento();
+void login();
+void flush();
 
 #endif

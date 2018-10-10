@@ -37,9 +37,10 @@ void tamanho(){
     consoleSize.Y = 30;
 
     //aqui vc mexe no tamanho da tela
-    sr.Top = sr.Left = 0;
+    sr.Top = 0;
+    sr.Left = 0;
     sr.Right = 80;
-    sr.Bottom = 15;
+    sr.Bottom = 16;
 
     SetConsoleWindowInfo(console,TRUE,&sr);
     SetConsoleScreenBufferSize(console,consoleSize);
@@ -49,9 +50,10 @@ void tamanho(){
 /// \brief printa o cabeçalho principal
 ///
 void ad(){
+    setlocale(LC_ALL,"Portuguese");
     printf("\t*********************************************************************\n");
-    printf("\t*                      Trouble Maker                                *\n");
-    printf("\t* Copyright 2018                                              v 0.1 *\n");
+    printf("\t*                           Vibee                                   *\n");
+    printf("\t* Troublemakers                                               v 0.1 *\n");
     printf("\t*********************************************************************\n");
 }
 

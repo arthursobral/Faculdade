@@ -5,12 +5,15 @@ CONFIG -= qt
 
 SOURCES += main.c \
     design.c \
-    maker.c
+    maker.c \
+    cadastro.c
 
 include(deployment.pri)
 qtcAddDeployment()
 
 HEADERS += \
     design.h \
-    maker.h
+    maker.h \
+    cadastro.h \
+    data.h
 

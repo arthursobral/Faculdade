@@ -6,8 +6,161 @@
 #include<windows.h>
 #include<conio.h>
 #include<locale.h>
+#include "cadastro.h"
 #define MAX 100
 #define MAXP 30
+
+///
+/// \brief deixa uma espaço para o cliente avaliar o app
+///
+void avalia(){
+    double avaliacao;
+    int caso;
+    char critica[100];
+    printf("\t*********************************************************************\n");
+    printf("\t* Deseja avaliar nosso servico? [1]-Sim  [2]-Nao                    *\n");
+    printf("\t*                              Opcao:                               *\n");
+    printf("\t*********************************************************************\n");
+    gotoXY(45,2);
+    scanf("%d",&caso);
+
+    switch  (caso){
+        case 1:
+                system("cls");
+                printf("\t*********************************************************************\n");
+                printf("\t* Digite um numero de 0 a 5.                                        *\n");
+                printf("\t*                              Opcao:                               *\n");
+                printf("\t*********************************************************************\n");
+                gotoXY(45,2);
+                retorna:scanf("%lf",&avaliacao);
+                if(avaliacao <0 || avaliacao >5){
+                    printf("Digite um numero valido.\n");
+                    printf("\n");
+                    goto retorna;
+                }
+                system("CLS");
+                printf("\t*********************************************************************\n");
+                printf("\t* Deseja escrever uma critica ou sujestao? [1]-Sim  [2]-Nao         *\n");
+                printf("\t*                              Opcao:                               *\n");
+                printf("\t*********************************************************************\n");
+                gotoXY(45,2);
+                scanf ("%d",&caso);
+                if (caso == 1){
+                    system("cls");
+                    printf("\t**********************************************************************\n");
+                    printf("\t* Escreva a seguir sua critica.                                      *\n");
+                    printf("\t* Precione '0' e ENTER para enviar.                                  *\n");
+                    printf("\t**********************************************************************\n");
+                    printf("\t");
+                    scanf("%[^0]", critica);
+                    printf("\t*********************************************************************\n");
+                    printf("\t* Critica/sujestao enviada com sucesso!                             *\n");
+                    printf("\t*********************************************************************\n");
+                }
+                break;
+        }
+    printf("\n");
+    system("PAUSE");
+    system("CLS");
+}
+
+///
+/// \brief
+///
+void flush(){
+    fflush(stdin);
+}
+
+///
+/// \brief é printado na tela oque o usuario tem que fazer e tambem será onde a funcao cadastro é chamada
+///
+void cadastramento(){
+    Cadastro *login = inicializa();
+    int *a = (int*)malloc(sizeof(int)*1000);
+    int n, i;
+
+    system("cls");
+    flush();
+
+    printf("\t*********************************************************************\n");
+    printf("\t*                           Vibee                              v 0.1*\n");
+    printf("\t*********************************************************************\n");
+    printf("\t|Nome:                                                              |\n");
+    printf("\t|Sobrenome:                                                         |\n");
+    printf("\t|Email:                                                             |\n");
+    printf("\t|Senha:                                                             |\n");
+    printf("\t|Redigite a senha:                                                  |\n");
+    printf("\t|Data de nascimento:                                                |\n");
+    printf("\t|Telefone:                                                          |\n");
+    printf("\t*********************************************************************\n");
+    printf("\t*                                                     Troublemarkers*\n");
+    printf("\t*********************************************************************\n");
+
+    gotoXY(14,3);
+    scanf("%[^\n]%*c", login->nome);
+    flush();
+
+    gotoXY(19,4);
+    scanf("%[^\n]%*c",login->sobrenome);
+    flush();
+
+    gotoXY(15,5);
+    scanf("%[^\n]%*c",login->email);
+    flush();
+
+    REFAZ:gotoXY(15,6);
+    scanf("%[^\n]%*c",login->senha);
+    flush();
+
+    gotoXY(26,7);
+    scanf("%[^\n]%*c",login->senha2);
+    flush();
+    if(strcmp(login->senha2,login->senha)!= 0){
+        gotoXY(24,14);
+        printf("Senhas nao correspondem!");
+        goto REFAZ;
+
+    }
+
+    gotoXY(28,8);
+    scanf("%d/%d/%d", &login->nascimento.dia, &login->nascimento.mes,&login->nascimento.ano);
+    flush();
+
+    gotoXY(18,9);
+    scanf("%s%*c",login->numero);
+    flush();
+
+    cadastro_save(login);
+}
+
+///
+/// \brief login
+///
+void login (){
+
+    system("cls");
+    char* email;
+    char* senha;
+
+
+    printf("\t*********************************************************************\n");
+    printf("\t|                            Vibee                                  |\n");
+    printf("\t|*******************************************************************|\n");
+    printf("\t|                                                                   |\n");
+    printf("\t| Email:                                                            |\n");
+    printf("\t| Senha:                                                            |\n");
+    printf("\t|                                                                   |\n");
+    printf("\t*********************************************************************\n");
+    printf("\t*                                                     Troublemarkers*\n");
+    printf("\t*********************************************************************\n");
+
+    gotoXY(16,4);
+    scanf("%s",&email);
+    gotoXY(16,5);
+    scanf("%s",&senha);
+
+    getchar();
+}
 
 ///
 /// \brief printa todas as playlist existentes e sua musicas
@@ -73,12 +226,12 @@ void addnaplaylist(Playlist play[],int ip,Music musicas[],int im){
     }
     N1:
     system("CLS");
-    msgchooseplay();
+    menuchooseplay();
     printf("\n");
     printf("\t*********************************************************************\n");
     printf("\t                               Playlist:                             \n");
     for(i=0;i<ip;i++){
-        printf("\t [%d] - %s de %s\n",i+1,play[i].titulo,play[i].dono);
+        printf("\t[%d]Playlist de %s: %s\n",i+1,play[i].dono,play[i].titulo);
     }
     printf("\t*********************************************************************\n");
 
@@ -225,9 +378,6 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
     printf("\t|___________________________________________________________________|\n");
     gotoXY(33,4);
     scanf("%d",&caso);
-    play[ip].hr = 0;
-    play[ip].min = 0;
-    play[ip].sec = 0;
     gotoXY(0,6);
     if(caso == 1){
         if(im == 0){
@@ -297,6 +447,7 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
 /// \brief adiciona uma musica no banco de dados
 /// \param musicas, é onde ela vai ser amazenada
 /// \param i, é a posição dela
+///
 ///
 void add(Music musicas[],int i){
     system("CLS");
@@ -392,7 +543,7 @@ void removedaplay(Playlist play[],int ip){
         printf("\t*********************************************************************\n");
         printf("\t                           Playlists:                                \n");
         for(i=0;i<ip;i++){
-            printf("\t[%d]Playlist de %s: %s\n",i+1,play[i].dono,play[i].titulo);
+            printf("\t[%d]Playlist de %s: %s - duracao %d:%d:%d",i+1,play[i].dono,play[i].titulo,play[ip].hr,play[ip].min,play[ip].seg);
             printf("\t                              Musicas:                             \n");
             for(j=0;j<play[i].tamanho;j++){
                 printf("\t\t[%d] - '%s' de '%s'\n",j+1,play[i].musicas[j].titulo,play[i].musicas[j].cantor);
@@ -431,47 +582,35 @@ void removedaplay(Playlist play[],int ip){
 /// \post ip é atualizado para saber quantas existem
 ///
 void excluiplay(Playlist play[],int ip){
-    int caso = 1,i,escolhap;
+    int i,escolhap;
 
     system("CLS");
-    while(caso==1){
-        if(ip == 0){
+    if(ip == 0){
             msgerroplay();
             system("PAUSE");
             return 0;
-        }
-        printf("\t*********************************************************************\n");
-        printf("\t*             Digite qual playlist deseja remover:                  *\n");
-        printf("\t*********************************************************************\n");
-        printf("\n");
-        printf("\t*********************************************************************\n");
-        printf("\t                           Playlists:                                \n");
-        for(i=0;i<ip;i++){
-            printf("\t[%d]Playlist de %s: %s\n",i+1,play[i].dono,play[i].titulo);
-        }
-        printf("\t*********************************************************************\n");
-        gotoXY(58,1);
-        scanf("%d",&escolhap);
-
-        for(i=escolhap;i<ip;i++){
-            play[i] = play[i++];
-        }
-        system("CLS");
-        printf("\t*********************************************************************\n");
-        printf("\t*                 Playlist excluida com sucesso.                    *\n");
-        printf("\t*********************************************************************\n");
-        ip--;
-        system("PAUSE");
-        system("CLS");
-        printf("\t*********************************************************************\n");
-        printf("\t*           Caso queira remover mais uma - Digite [1]               *\n");
-        printf("\t*                  Caso contrario - Digite [0]                      *\n");
-        printf("\t*                             Opcao:                                *\n");
-        printf("\t*********************************************************************\n");
-        gotoXY(46,3);
-        scanf("%d",&caso);
-        system("CLS");
     }
+    printf("\t*********************************************************************\n");
+    printf("\t*             Digite qual playlist deseja remover:                  *\n");
+    printf("\t*********************************************************************\n");
+    printf("\n");
+    printf("\t*********************************************************************\n");
+    printf("\t                           Playlists:                                \n");
+    for(i=0;i<ip;i++){
+        printf("\t[%d]Playlist de %s: %s\n",i+1,play[i].dono,play[i].titulo);
+    }
+    printf("\t*********************************************************************\n");
+    gotoXY(58,1);
+    scanf("%d",&escolhap);
+    escolhap--;
+
+    for(i=escolhap;i<ip;i++){
+            play[i] = play[i++];
+    }
+    system("CLS");
+    printf("\t*********************************************************************\n");
+    printf("\t*                 Playlist excluida com sucesso.                    *\n");
+    printf("\t*********************************************************************\n");
 }
 
 ///
