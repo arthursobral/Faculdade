@@ -36,7 +36,7 @@ void printaplay(Playlist play[], int t);
 void editaplay(Playlist play[],int ip,Music musicas[],int im);
 void removedaplay(Playlist play[],int ip);
 void excluiplay(Playlist play[], int ip);
-void duracaoplay(Playlist play);
+Playlist duracaoplay(Playlist play);
 void cadastramento();
 void login();
 void flush();

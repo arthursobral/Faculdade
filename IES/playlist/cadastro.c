@@ -4,6 +4,7 @@
 
 ///
 /// \brief inicializa a data como 1/1/1 caso nao seja colocado a data de nascimento.
+/// \return retorna a data inicializada
 ///
 Data inicializaData(){
     Data new;
@@ -22,17 +23,17 @@ Data inicializaData(){
 ///
 Cadastro* inicializa(){
 
-	Cadastro* new = (Cadastro*)malloc(sizeof(Cadastro));
+    Cadastro* new = (Cadastro*)malloc(sizeof(Cadastro));
 
-	new->nome = (char*)malloc(sizeof(char)*100);
-	new->sobrenome = (char*)malloc(sizeof(char)*100);
-	new->email = (char*)malloc(sizeof(char)*100);
-	new->senha = (char*)malloc(sizeof(char)*100);
-	new->senha2 = (char*)malloc(sizeof(char)*100);
-	new->nascimento = inicializaData();
-	new->numero = (char*)malloc(sizeof(char)*100);
-	
-	return new;
+    new->nome = (char*)malloc(sizeof(char)*100);
+    new->sobrenome = (char*)malloc(sizeof(char)*100);
+    new->email = (char*)malloc(sizeof(char)*100);
+    new->senha = (char*)malloc(sizeof(char)*100);
+    new->senha2 = (char*)malloc(sizeof(char)*100);
+    new->nascimento = inicializaData();
+    new->numero = (char*)malloc(sizeof(char)*100);
+
+    return new;
 }
 
 ///
@@ -40,13 +41,13 @@ Cadastro* inicializa(){
 /// \return mostra no arquivo o tudo que seja correspondente ao cadastro.
 ///
 void cadastro_save(Cadastro *login){
-	char* s = (char*)malloc(sizeof(char)*100);
+    char* s = (char*)malloc(sizeof(char)*100);
 
-	strcpy(s, login->email);
+    strcpy(s, login->email);
 
-	strcat(s, ".txt");
+    strcat(s, ".txt");
 
-	FILE *f = fopen(s, "w+");
+    FILE *f = fopen(s, "w+");
 
     fprintf(f,"Nome:%s\n", login->nome);
     fprintf(f,"Sobrenome:%s\n", login->sobrenome);

@@ -65,11 +65,12 @@ void avalia(){
 }
 
 ///
-/// \brief
+/// \brief limpa a entranda da tela
 ///
 void flush(){
     fflush(stdin);
 }
+
 
 ///
 /// \brief é printado na tela oque o usuario tem que fazer e tambem será onde a funcao cadastro é chamada
@@ -163,6 +164,33 @@ void login (){
 }
 
 ///
+/// \brief atualiza a duracao total da playlist
+/// \param play é o vetor que contém todas as playlist existentes
+///
+Playlist duracaoplay(Playlist play){
+    int h=0,m=0,s=0,i;
+
+    for(i=0;i<play.tamanho;i++){
+        m+=play.musicas[i].min;
+        s+=play.musicas[i].seg;
+    }
+
+    while(s>60){
+        m++;
+        s-=60;
+    }
+    while(m>60){
+        h++;
+        m-=60;
+    }
+    play.hr = h;
+    play.min = m;
+    play.seg = s;
+
+    return play;
+}
+
+///
 /// \brief printa todas as playlist existentes e sua musicas
 /// \param play, é o vetor de playlist
 /// \param tam, é quantas playlist existem
@@ -178,9 +206,10 @@ void consultarplaylist(Playlist play[],int tam){
     }
     for(i=0;i<tam;i++){
         printf("\t*******************************************************************\n");
-        printf("\t*[%d]Playlist de %s: %s\n",i+1,play[i].dono,play[i].titulo);
+        play[i] = duracaoplay(play[i]);
+        printf("\t*[%d]Playlist de %s: %s Duracao: %d:%d:%d\n",i+1,play[i].dono,play[i].titulo,play[i].hr,play[i].min,play[i].seg);
         for(j=0;j<play[i].tamanho;j++){
-            printf("\t*\t[%d] - Musica: '%s' de '%s'\n",j+1,play[i].musicas[j].titulo,play[i].musicas[j].cantor);
+            printf("\t*\t[%d] - Musica: '%s' de '%s' %d:%d\n",j+1,play[i].musicas[j].titulo,play[i].musicas[j].cantor,play[i].musicas[j].min,play[i].musicas[j].seg);
         }
         printf("\t*******************************************************************\n");
     }
@@ -310,7 +339,7 @@ void printamusic(Music musicas[],int tam){
         printf("\n");
         printf("\t *******************************************************************\n");
         for(i=0;i<tam;i++){
-            printf("\t* [%d] -> '%s' - '%s'",i+1,musicas[i].titulo,musicas[i].cantor);
+            printf("\t* [%d] -> '%s' - '%s' %d:%d",i+1,musicas[i].titulo,musicas[i].cantor,musicas[i].min,musicas[i].seg);
             printf("\n");
         }
         printf("\t *******************************************************************\n");
@@ -327,7 +356,7 @@ void printaplay(Playlist play[], int t){
 
     for(i=0;i<t;i++){
         printf("\t*******************************************************************\n");
-        printf("\t [%d]Playlist de %s: %s\n",i+1,play[i].dono,play[i].titulo);
+        printf("\t [%d]Playlist de %s: %s Duracao: %d:%d:%d\n",i+1,play[i].dono,play[i].titulo,play[i].hr,play[i].min,play[i].seg);
     }
     printf("\t*******************************************************************\n");
 }
@@ -373,6 +402,9 @@ void criaplaylist(Playlist play[],int ip, Music musicas[],int im){
     scanf("%[^\n]%*c",play[ip].titulo);
     gotoXY(43,2);
     scanf("%[^\n]%*c",play[ip].dono);
+    play[ip].hr = 0;
+    play[ip].min = 0;
+    play[ip].seg = 0;
     printf("\t|Deseja adicionar alguma musica no momento? [1]-Sim  [2]-Nao        |\n");
     printf("\t|                                                                   |\n");
     printf("\t|___________________________________________________________________|\n");

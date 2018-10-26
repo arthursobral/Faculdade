@@ -14,6 +14,6 @@ qtcAddDeployment()
 HEADERS += \
     design.h \
     maker.h \
-    cadastro.h \
-    data.h
+    data.h \
+    cadastro.h
 

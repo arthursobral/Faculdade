@@ -10,14 +10,14 @@
 #include "data.h"
 
 typedef struct {
-	char* HashTag;
-	char* nome;
-	char* sobrenome;
-	char* email;
-	char* senha;
-	char* senha2;
-	Data nascimento;
-	char* numero;
+    char* HashTag;
+    char* nome;
+    char* sobrenome;
+    char* email;
+    char* senha;
+    char* senha2;
+    Data nascimento;
+    char* numero;
 } Cadastro;
 
 Cadastro* inicializa();

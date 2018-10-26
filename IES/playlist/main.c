@@ -32,7 +32,7 @@ int main(){
         scanf("%d",&opcao);
         switch (opcao){
             case 1:
-                login();
+                //login();
                 system("color F1");
                 tamanho();
                 int caso;
