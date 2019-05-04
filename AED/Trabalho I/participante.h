@@ -155,11 +155,11 @@ Participante *insere_part1(Participante *p){
     
     fflush(stdin);
     gotoXY(17,5);
-    sscanf("%[^\n]%*c", novo->cpf);
+    scanf("%[^\n]%*c", novo->cpf);
     
     fflush(stdin);
     gotoXY(13,6);
-    sscanf("%[^\n]%*c", novo->categoria);
+    scanf("%[^\n]%*c", novo->categoria);
     
     fflush(stdin);
     gotoXY(19,7);
