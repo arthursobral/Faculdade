@@ -106,17 +106,17 @@ int menu_voo(){
 /// \brief printa o menu para inserir voo
 ///
 void menu_inserir_voo(){
-	printf("+------------------------------------+\n");
-	printf("|               Voos                 |\n");
-    printf("+------------------------------------+\n");
-    printf("| Prefixo:                           |\n");
-    printf("| Origem:                            |\n");
-    printf("| Destino:                           |\n");
-    printf("| Horario de partida:                |\n");
-    printf("| Horario de chegada:                |\n");
-    printf("| Duracao do voo:                    |\n");
-    printf("| Modelo do aviao:                   |\n");
-    printf("+------------------------------------+\n");
+	printf("+-----------------------------------------+\n");
+	printf("|                  Voos                   |\n");
+    printf("+-----------------------------------------+\n");
+    printf("| Prefixo:                                |\n");
+    printf("| Origem:                                 |\n");
+    printf("| Destino:                                |\n");
+    printf("| Horario de partida (hh:mm):             |\n");
+    printf("| Horario de chegada (hh:mm):             |\n");
+    printf("| Duracao do voo (hh:mm):                 |\n");
+    printf("| Modelo do aviao:                        |\n");
+    printf("+-----------------------------------------+\n");
 }
 
 ///

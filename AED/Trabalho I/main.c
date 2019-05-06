@@ -16,6 +16,7 @@ int main(int arqc,const char *arqv[]){
 	f = fopen(nomeArquivo,"r");
 
 	if(f == NULL){
+
 		printf("Arquivo esta vazio\n");
 	}
 	else{
@@ -57,27 +58,40 @@ int main(int arqc,const char *arqv[]){
 							opcao2 = menu_listar_v();
 							switch (opcao2){
 								case 1:
-									system("cls");
-									printf("+------------------------------------+\n");
-        							printf("|                 Voos               |\n");
-        							printf("+------------------------------------+\n");		
-									imprime_voo(v);
-									system("pause");
+									if(vazia(v)){
+										system("cls");
+										printf("+------------------------------------+\n");
+        								printf("|         Nao existe voos            |\n");
+        								printf("+------------------------------------+\n");
+        								system("pause");	
+									}else{
+										system("cls");
+										printf("+------------------------------------+\n");
+	        							printf("|                 Voos               |\n");
+	        							printf("+------------------------------------+\n");		
+										imprime_voo(v);
+										system("pause");
+									}
 									break;
 								case 2:
-									system("cls");
-									printf("+------------------------------------+\n");
-        							printf("| Digite o prefixo do voo            |\n");
-        							printf("| Prefixo:                           |\n");
-        							printf("+------------------------------------+\n");
-        							gotoXY(11,2);
-        							fflush(stdin);
-        							scanf("%[^\n]%*c",prefixo);
-        							printf("+------------------------------------+\n");
-        							printf("|                 Voos               |\n");
-        							printf("+------------------------------------+\n");
-        							imprime_voo_pro(v,prefixo);
-        							system("pause");
+									if(vazia(v)){
+										system("cls");
+										printf("+------------------------------------+\n");
+        								printf("|         Nao existe voos            |\n");
+        								printf("+------------------------------------+\n");
+        								system("pause");
+        							}else{
+										system("cls");
+										printf("+------------------------------------+\n");
+	        							printf("| Digite o prefixo do voo            |\n");
+	        							printf("| Prefixo:                           |\n");
+	        							printf("+------------------------------------+\n");
+	        							gotoXY(11,2);
+	        							fflush(stdin);
+	        							scanf("%[^\n]%*c",prefixo);
+	        							imprime_voo_pro(v,prefixo);
+	        							system("pause");
+	        						}
         							break;
         						case 0:
         							break;
@@ -112,26 +126,43 @@ int main(int arqc,const char *arqv[]){
 						case 1:
 							system("cls");
 							p = insere_part1(p);
+							printf("\n");
 							system("pause");
 							break;
 						case 2:
 							opcao2 = menu_listar_p();
 							if(opcao2 == 1){
-								system("cls");
-								listar_part(p);
-								system("pause");
+								if(vazia_p(p)){
+									system("cls");
+									printf("+------------------------------------+\n");
+        							printf("|      Nao existe participantes      |\n");
+        							printf("+------------------------------------+\n");
+        							system("pause");
+								}else{
+									system("cls");
+									listar_part(p);
+									system("pause");
+								}
 							}
 							else if(opcao2 == 2){
-								system("cls");
-								printf("+------------------------------------+\n");
-        						printf("| Digite o CPF da pessoa             |\n");
-        						printf("| CPF:                               |\n");
-        						printf("+------------------------------------+\n");
-        						gotoXY(7,2);
-        						fflush(stdin);
-        						scanf("%[^\n]%*c",cpf_procurado);
-								procurar_part(p,cpf_procurado);
-								system("pause");
+								if(vazia_p(p)){
+									system("cls");
+									printf("+------------------------------------+\n");
+        							printf("|      Nao existe participantes      |\n");
+        							printf("+------------------------------------+\n");
+        							system("pause");
+								}else{
+									system("cls");
+									printf("+------------------------------------+\n");
+	        						printf("| Digite o CPF da pessoa             |\n");
+	        						printf("| CPF:                               |\n");
+	        						printf("+------------------------------------+\n");
+	        						gotoXY(7,2);
+	        						fflush(stdin);
+	        						scanf("%[^\n]%*c",cpf_procurado);
+									procurar_part(p,cpf_procurado);
+									system("pause");
+								}
 							}
 							else if(opcao2 == 0){
 								break;
@@ -178,6 +209,7 @@ int main(int arqc,const char *arqv[]){
 		opcao = menu();
 	}
 	
+	fclose(f);
 	system("cls");
 	return 0;
 }

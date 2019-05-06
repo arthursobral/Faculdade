@@ -7,6 +7,7 @@
 #include <string.h>
 #include <math.h>
 #include "menu.h"
+#include "aviao.h"
 
 
 #define MAX 50
@@ -27,6 +28,8 @@ struct participante{
 /// \brief verifica se uma lista encadeada de participantes e vazia ou nao
 /// \param lista encadeada de participante
 /// \return retorna 1 se for vazia e 0 o contrario
+/// \pre
+/// \post
 ///
 int vazia_p(Participante *p){
 
@@ -37,6 +40,8 @@ int vazia_p(Participante *p){
 /// \brief analisa a letra lida do arquivo
 /// \param a letra a ser analisada
 /// \return retorna 1 caso seja p ou P, 2 caso seja v ou V e 3 caso nao seja nenhuma das dessas
+/// \pre
+/// \post
 ///
 int qual_cadastro(char letra){
 
@@ -59,6 +64,8 @@ int qual_cadastro(char letra){
 ///
 /// \brief inicializa um no de participantes
 /// \return retorna o no inicializado
+/// \pre nenhuma
+/// \post nenhuma
 ///
 Participante *inicializa(){
 
@@ -75,6 +82,8 @@ Participante *inicializa(){
 ///
 /// \brief imprime os dados do participante
 /// \param lista encadeada de participantes
+/// \pre lista nao seja vazia
+/// \post nenhuma
 ///
 void mostrar_part(Participante *p){
     if(!vazia_p(p)){
@@ -98,6 +107,8 @@ void mostrar_part(Participante *p){
 /// \param lista encadeada de participantes
 /// \param linha do arquivo de onde ele ira ler
 /// \return retorna a lista de participantes alterada com o novo participante inserido
+/// \pre arquivo nao esteja vazio
+/// \post lista encadeada com item inserido
 ///
 Participante *insere_part(Participante *p, char *linhaArq){
     if(vazia_p(p)){
@@ -135,7 +146,9 @@ Participante *insere_part(Participante *p, char *linhaArq){
 ///
 /// \brief insere participante a partir da leitura do teclado
 /// \param lista encadeada de participantes
-/// \return retorna a lista de participantes alterada com o novo participante inserido
+/// \return retorna a lista de participantes alterada
+/// \pre lista declarada
+/// \post lista encadeada com item inserido
 ///
 Participante *insere_part1(Participante *p){
     Participante *novo = inicializa();
@@ -145,24 +158,26 @@ Participante *insere_part1(Participante *p){
     system("cls");
     menu_inserir_p();
 
-    fflush(stdin);
     gotoXY(12,3);
-    scanf("%[^\n]%*c", novo->programa);
-    
     fflush(stdin);
+    scanf("%[^\n]%*c",novo->programa);
+    
     gotoXY(18,4);
-    scanf("%[^\n]%*c", novo->pessoa);
-    
     fflush(stdin);
+    scanf("%[^\n]%*c",novo->pessoa);
+
+
     gotoXY(17,5);
-    scanf("%[^\n]%*c", novo->cpf);
-    
     fflush(stdin);
+    scanf("%[^\n]%*c",novo->cpf);
+    
+
     gotoXY(13,6);
-    scanf("%[^\n]%*c", novo->categoria);
-    
     fflush(stdin);
+    scanf("%[^\n]%*c",novo->categoria);
+    
     gotoXY(19,7);
+    fflush(stdin);
     scanf("%lf", &novo->milhas);
 
     novo->prox = NULL;
@@ -187,6 +202,8 @@ Participante *insere_part1(Participante *p){
 ///
 /// \brief imprime todos os participantes existentes
 /// \param lista encadeada de participantes
+/// \pre lista encadeada contendo participantes, nao nula
+/// \post nenhuma
 ///
 void listar_part(Participante *p){
     if(p == NULL){
@@ -215,6 +232,8 @@ void listar_part(Participante *p){
 /// \param lista encadeada com todos os participantes
 /// \param cpf do participante a ser excluido
 /// \return a lista alterada sem o participante
+/// \pre lista encadeada contendo participantes, nao nula
+/// \post lista encadeada com o participante removido
 ///
 Participante* excluir_part(Participante *p, char cpf_procurado[]){
     if(p != NULL && !strcmp(p->cpf, cpf_procurado)){
@@ -251,6 +270,8 @@ Participante* excluir_part(Participante *p, char cpf_procurado[]){
 /// \brief procura um participante pelo cpf e exibi suas informações
 /// \param a lista que contem todos os participantes
 /// \param cpf a ser procurado
+/// \pre lista encadeada contendo participantes, nao nula
+/// \post nenhuma
 ///
 void procurar_part(Participante *p, char cpf_procurado[]){
     if(p != NULL && !strcmp(p->cpf, cpf_procurado)){

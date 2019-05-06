@@ -1,7 +1,6 @@
 #ifndef AVIAO_H
 #define AVIAO_H
 
-
 #include<stdlib.h>
 #include<string.h>
 #include<stdio.h>
@@ -27,6 +26,7 @@ typedef struct voo{
 /// \param lista encadeada de voos
 /// \return retorna 1 se a lista for vazia
 /// \pre lista encadeada
+/// \post nenhuma
 ///
 int vazia(Voo *l){
 
@@ -93,6 +93,7 @@ Voo *insere_voo(Voo *l){
             printf("+-----------------------------------------------------------------------+\n");
             printf("| Erro: a sigla de origem deve ser formado por 3 caracteres maiusculos! |\n");
             printf("+-----------------------------------------------------------------------+\n");
+            free(nova);
             return l;
         }
 
@@ -105,6 +106,7 @@ Voo *insere_voo(Voo *l){
             printf("+------------------------------------------------------------------------+\n");
             printf("| Erro: a sigla de destino deve ser formado por 3 caracteres maiusculos! |\n");
             printf("+------------------------------------------------------------------------+\n");
+            free(nova);
             return l;
         }
         if(!strcmp(nova->nome_sigla_org, nova->nome_sigla_dst)){
@@ -112,6 +114,7 @@ Voo *insere_voo(Voo *l){
             printf("+----------------------------------------------------+\n");
             printf("| Erro: o destino nao pode ser o mesmo que a origem! |\n");
             printf("+----------------------------------------------------+\n");
+            free(nova);
 
             return l;
         }
@@ -125,6 +128,7 @@ Voo *insere_voo(Voo *l){
             printf("+-------------------------------------+\n");
             printf("| Erro: horario de partida incorreto! |\n");
             printf("+-------------------------------------+\n");
+            free(nova);
             return l;
         }
 
@@ -137,6 +141,7 @@ Voo *insere_voo(Voo *l){
             printf("+-------------------------------------+\n");
             printf("| Erro: horario de chegada incorreto! |\n");
             printf("+-------------------------------------+\n");
+            free(nova);
             return l;
         }
 
@@ -149,6 +154,7 @@ Voo *insere_voo(Voo *l){
             printf("+-------------------------------------+\n");
             printf("| Erro: horario de duração incorreto! |\n");
             printf("+-------------------------------------+\n");
+            free(nova);
             return l;
         }
 
@@ -190,7 +196,13 @@ Voo* insere_voo_a(Voo* l, char *linhaArq){
         n+=np;
 
         if(strlen(nova->nome_sigla_org)!=3 || !eh_maiusucula(nova->nome_sigla_org)){
-            printf("Erro: a sigla de origem deve ser formado por 3 caracteres maiusculos\n");
+            system("cls");
+            printf("+-----------------------------------------------------------------------+\n");
+            printf("|               Erro ao ler informacoes do voo %-25s|\n",nova->prefixo);
+            printf("| Obs: a sigla de origem deve ser formado por 3 caracteres maiusculos   |\n");
+            printf("+-----------------------------------------------------------------------+\n");
+            free(nova);
+            system("pause");
             return l;
         }
 
@@ -199,12 +211,23 @@ Voo* insere_voo_a(Voo* l, char *linhaArq){
         n+=np;
 
         if(strlen(nova->nome_sigla_dst)!=3 || !eh_maiusucula(nova->nome_sigla_dst)){
-
-            printf("Erro: a sigla de destino deve ser formado por 3 caracteres maiusculos\n");
-              return l;
+            system("cls");
+            printf("+-----------------------------------------------------------------------+\n");
+            printf("|               Erro ao ler informacoes do voo %-25s|\n",nova->prefixo);
+            printf("| Obs: a sigla de destino deve ser formado por 3 caracteres maiusculos  |\n");
+            printf("+-----------------------------------------------------------------------+\n");
+            free(nova);
+            system("pause");
+            return l;
         }
         if(!strcmp(nova->nome_sigla_org, nova->nome_sigla_dst)){
-            printf("Erro: o destino nao pode ser o mesmo que a origem\n");
+            system("cls");
+            printf("+-----------------------------------------------------------------------+\n");
+            printf("|               Erro ao ler informacoes do voo %-25s|\n",nova->prefixo);
+            printf("|            Obs: o destino nao pode ser o mesmo que a origem           |\n");
+            printf("+-----------------------------------------------------------------------+\n");
+            free(nova);
+            system("pause");
             return l;
         }
 
@@ -212,7 +235,13 @@ Voo* insere_voo_a(Voo* l, char *linhaArq){
         n+=np;
 
         if(nova->hh_part<0 || nova->hh_part>23 || nova->mm_part<0 || nova->mm_part>59){
-            printf("Erro: horario de partida incorreto\n");
+            system("cls");
+            printf("+-----------------------------------------------------------------------+\n");
+            printf("|               Erro ao ler informacoes do voo %-25s|\n",nova->prefixo);
+            printf("|                     Obs: horario de partida incorreto                 |\n");
+            printf("+-----------------------------------------------------------------------+\n");
+            free(nova);
+            system("pause");
             return l;
         }
 
@@ -220,7 +249,13 @@ Voo* insere_voo_a(Voo* l, char *linhaArq){
         n+=np;
 
         if(nova->hh_cheg<0 || nova->hh_cheg>23 || nova->mm_cheg<0 || nova->mm_cheg>59){
-            printf("Erro: horario de chegada incorreto\n");
+            system("cls");
+            printf("+-----------------------------------------------------------------------+\n");
+            printf("|               Erro ao ler informacoes do voo %-25s|\n",nova->prefixo);
+            printf("|                     Obs: horario de chegada incorreto                 |\n");
+            printf("+-----------------------------------------------------------------------+\n");
+            free(nova);
+            system("pause");
             return l;
         }
 
@@ -228,7 +263,13 @@ Voo* insere_voo_a(Voo* l, char *linhaArq){
         n+=np;
 
         if(nova->hh_dura<0 || nova->hh_dura>23 || nova->mm_dura<0 || nova->mm_dura>59){
-            printf("Erro: horario de duração incorreto\n");
+            system("cls");
+            printf("+-----------------------------------------------------------------------+\n");
+            printf("|               Erro ao ler informacoes do voo %-25s|\n",nova->prefixo);
+            printf("|                     Obs: horario de duracao incorreto                 |\n");
+            printf("+-----------------------------------------------------------------------+\n");
+            free(nova);
+            system("pause");
             return l;
         }
 
@@ -249,6 +290,7 @@ Voo* insere_voo_a(Voo* l, char *linhaArq){
 /// \brief imprime
 /// \param lista encad. com voos
 /// \pre lista encadeada
+/// \post nenhuma
 ///
 void imprime_voo(Voo* l){
     if(!vazia(l)){
@@ -332,6 +374,8 @@ Voo *remover_voo (Voo* l){
 /// \brief um certo voo de acordo com o prefixo dado
 /// \param lista encadeada contendo todos os voos
 /// \param prefixo a ser procurado na lista
+/// \pre nenhuma
+/// \post nenhuma
 ///
 void imprime_voo_pro(Voo *l,char prefixo[]){
     if(l != NULL && !strcmp(l->prefixo, prefixo)){
