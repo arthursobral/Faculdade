@@ -1,82 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "arvore.h"
 #include "menu.h"
-#include <windows.h>
+#include "quicksort.h"
 
-int main(int arqc,const char *arqv[]){
-	FILE *f;
-	char *nomeArquivo, linhaArq[100];
-	Arvore *biblioteca = NULL;
-	Livros *aux = NULL;
-	int opcao,remover;
+int main(int arqc, const char *arqv[]){
 
-	nomeArquivo = nome_Arq(arqv+1); // ignorando o .exe
-	printf("%s\n",nomeArquivo);
+	FILE *info, *arvoreBin, *livrosBin;
+	char *nomeArquivo, linhaArq[200];
+	int opcao;
 
-	f = fopen(nomeArquivo,"r");
+	nomeArquivo = nome_Arq(arqv+1); //ignorando o .exe
 
-	if(f==NULL){
+	info = fopen(nomeArquivo, "r");
+
+	arvoreBin = fopen("arvore.bin", "wb+");
+	livrosBin = fopen("livros.bin", "wb+");
+
+	cria_cabe_arv(arvoreBin);
+	cria_cabe_livro(livrosBin);
+
+	if(info == NULL){
 		printf("Arquivo vazio!\n");
+		system("PAUSE");
 	}
 	else{
-		while(!feof(f)){
-			fgets(linhaArq,100,f);
+		while(!feof(info)){
+			
+			fgets(linhaArq, 100, info);
 
-			aux = insere_livro_arq(linhaArq);
-			biblioteca = insere_no(biblioteca,aux);
+			le_arq(livrosBin, arvoreBin, linhaArq);
 		}
 	}
 
+	
 	opcao = menu_ini();
 
 	while(opcao != 0){
 		switch (opcao){
-			case 1://inserir livro
-				aux = insere_livro();
-				biblioteca = insere_no(biblioteca,aux);
-				msg_sucess();
+			case 1://inserir livro nos arqvs bin
+				leStd(livrosBin, arvoreBin);
 				break;
-			case 2://remover livro
-				remover = menu_remove();
-				biblioteca = remove_no(biblioteca,remover);
-				msg_sucess_r();
+			case 2://remover livro dos arqvs bin
+				remover(arvoreBin,livrosBin);
 				break;
 			case 3://atualizar qtd de algum livro
-
+				atualiza(arvoreBin,livrosBin);
 				break;
 			case 4://procurar livro
-
+				buscar(arvoreBin,livrosBin);
 				break;
 			case 5://imprimir arvore,arvore por nivel e o acervo em ordem crescente
+
 				system("cls");
-				opcao = menu_print();
+				opcao = opcao_print();
+				
 				switch(opcao){
 					case 1://imprimir arvore pre-ordem
-						printa_arvore(biblioteca);
 						printf("\n");
+						printa_arv(arvoreBin);
 						break;
 					case 2://imprimir arvore por nivel
+						system("cls");
+						imprime_nivel(arvoreBin);
 						break;
 					case 3://imprimir acervo em ordem crescente
 						system("cls");
-						menu_ordem();
-						printa_ord(biblioteca);
-						printf("\n");
+						printa_inordem(arvoreBin,livrosBin);
 						break;
-					case 0:
+					case 4:
+						ordena_vetor(livrosBin,arvoreBin);
+						msg_sucess_list();
 						break;
-					default:
-						erro_op();
 				}
 				break;
 			default:
-				erro_op();
+				printf("Opcao invalida\n");
 		}
+		printf("\n");
 		system("PAUSE");
 		opcao = menu_ini();
 	}
-	system("cls");
 
-	free(aux);
-	free(biblioteca);
+	fclose(arvoreBin);
+	fclose(livrosBin);
+	fclose(info);
+
 	return 0;
 }

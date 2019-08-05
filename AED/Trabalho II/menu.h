@@ -19,23 +19,14 @@ void gotoXY(int x,int y);
 ///
 int menu_ini();
 
-///
-/// \brief printa o menu para escolhas de visualizacao da biblioteca
-/// \return retorna a opcao escolhida
-///
-int menu_print();
+void menu_insere_livro();
 
-///
-/// \brief mensagem de erro caso a opcao escolhida nao exista
-///
-void erro_op();
+int opcao_print();
 
-void menu_insere();
+void msg_sucess_list();
 
-void msg_sucess();
+int procurado();
 
-int menu_remove();
-
-void msg_sucess_r();
+int atualiza_qtd_msg();
 
 #endif

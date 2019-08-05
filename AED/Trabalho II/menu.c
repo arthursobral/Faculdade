@@ -1,4 +1,4 @@
- #include "menu.h"
+#include "menu.h"
 
 ///
 /// \brief move o cursor dado uma coordenada x e y
@@ -27,11 +27,11 @@ int menu_ini(){
 	printf("+------------------------------------+\n");
 	printf("|            Menu principal          |\n");
     printf("+------------------------------------+\n");
-    printf("| 1 - Inserir Livro                  |\n");
-    printf("| 2 - Remover Livro                  |\n");
-    printf("| 3 - Atualizar quantidade           |\n");
-    printf("| 4 - Procurar Livro                 |\n");
-    printf("| 5 - Imprimir Livros                |\n");
+    printf("| 1 - Inserir                        |\n");
+    printf("| 2 - Remover                        |\n");
+    printf("| 3 - Atualizar                      |\n");
+    printf("| 4 - Procurar                       |\n");
+    printf("| 5 - Imprimir                       |\n");
     printf("| 0 - Sair                           |\n");
     printf("|                                    |\n");
     printf("+------------------------------------+\n");
@@ -41,80 +41,81 @@ int menu_ini(){
     return n;
 }
 
-///
-/// \brief printa o menu para escolhas de visualizacao da biblioteca
-/// \return retorna a opcao escolhida
-///
-int menu_print(){
+void menu_insere_livro(){
+    system("cls");
+    printf("+--------------------------------------------+\n");
+    printf("|                     Livro                  |\n");
+    printf("+--------------------------------------------+\n");
+    printf("| Codigo:                                    |\n");
+    printf("| Titulo:                                    |\n");
+    printf("| Autor:                                     |\n");
+    printf("| Quantidade:                                |\n");
+    printf("+--------------------------------------------+\n");
+}
+
+int opcao_print(){
     int n;
 
     system("cls");
     printf("+------------------------------------+\n");
-    printf("|            Menu principal          |\n");
+    printf("|               Imprimir             |\n");
     printf("+------------------------------------+\n");
     printf("| 1 - Imprimir arvore                |\n");
-    printf("| 2 - Imprimir arvore por nivel      |\n");
-    printf("| 3 - Imprimir por acervo            |\n");
+    printf("| 2 - Imprimir niveis                |\n");
+    printf("| 3 - Imprimir acervo                |\n");
+    printf("| 4 - Gerar listagem                 |\n");
     printf("| 0 - Sair                           |\n");
     printf("|                                    |\n");
     printf("+------------------------------------+\n");
-    gotoXY(18,7);
+
+    gotoXY(18,8);
     scanf("%d",&n);
 
     return n;
 }
 
-///
-/// \brief mensagem de erro caso a opcao escolhida nao exista
-///
-void erro_op(){
-    system("cls");
+void msg_sucess_list(){
+    system("CLS");
     printf("+------------------------------------+\n");
-    printf("|            Opcao invalida          |\n");
+    printf("|     Listagem feita com sucesso     |\n");
     printf("+------------------------------------+\n");
 }
 
-void menu_insere(){
-    system("cls");
-    printf("+----------------------------------------------------------------+\n");
-    printf("|                               Insercao                         |\n");
-    printf("+----------------------------------------------------------------+\n");
-    printf("| Acervo:                                                        |\n");
-    printf("| Titulo:                                                        |\n");
-    printf("| Autor:                                                         |\n");
-    printf("| Quantidade:                                                    |\n");
-    printf("+----------------------------------------------------------------+\n");
+void nao_encontrado(){
+    printf("+------------------------------------+\n");
+    printf("|       Elemento nao encontrado      |\n");
+    printf("+------------------------------------+\n");
 }
 
-void msg_sucess(){
-    printf("|                   Livros inserido com sucesso                  |\n");
-    printf("+----------------------------------------------------------------+\n");
-}
-
-void menu_ordem(){
-    printf("+----------------------------------------------------------------+\n");
-    printf("|                             Acervo                             |\n");
-    printf("+----------------------------------------------------------------+\n");
-}
-
-int menu_remove(){
+int procurado(){
     int n;
+    printf("+------------------------------------+\n");
+    printf("|               Procurar             |\n");
+    printf("+------------------------------------+\n");
+    printf("| Digite o codigo do livro:          |\n");
+    printf("|                                    |\n");
+    printf("+------------------------------------+\n");
 
-    system("cls");
-    printf("+------------------------------------+\n");
-    printf("|               Remocao              |\n");
-    printf("+------------------------------------+\n");
-    printf("| Digite o codigo do acervo:         |\n");
-    printf("+------------------------------------+\n");
-
-    gotoXY(28,3);
+    gotoXY(18,4);
     scanf("%d",&n);
+    printf("\n");
 
     return n;
 }
 
-void msg_sucess_r(){
-    printf("|                                    |\n");
-    printf("|     Livro removido com sucesso     |\n");
-    printf("+------------------------------------+\n");
+int atualiza_qtd_msg(){
+    int n;
+    system("cls");
+    printf("+---------------------------------------------+\n");
+    printf("|                  Atualizar                  |\n");
+    printf("+---------------------------------------------+\n");
+    printf("| Digite a nova quantidade de exemplares:     |\n");
+    printf("|                                             |\n");
+    printf("+---------------------------------------------+\n");
+
+    gotoXY(21,4);
+    scanf("%d",&n);
+    printf("\n");
+
+    return n;
 }
