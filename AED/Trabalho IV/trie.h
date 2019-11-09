@@ -1,7 +1,10 @@
+#ifndef TRIE_H
+#define TRIE_H
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "menu.h"
+#include <ctype.h>
 #define ALFABETO 26
 
 typedef struct trie{
@@ -14,160 +17,97 @@ typedef struct trie{
 /// \param argv: uma constante contendo o que foi lido do cmd
 /// \return retorna a constante em forma de string
 ///
-char *nome_Arq(char const *argv[]){
-    
-    return ((char*)argv[0]); //char*: convertendo o tipo de dado para string
-}
+char *nome_Arq(char const *argv[]);
 
-Trie *inicializa(){
-	int i;
-	Trie *novo = (Trie*)malloc(sizeof(Trie));
-	novo->final = 0;
+///
+/// \brief verifica se nao existe acento ou um caracter fora do alfabeto, enquanto transforma as maisculas em minusculas
+/// \param s: a palavra a ser verificada caracter por caracter
+/// \return retorna 1 caso esteja tudo certo com a palavra 0 caso ao contrario
+/// \pre nenhuma
+/// \pos nenhuma
+///
+int verifica(char s[]);
 
-	for(i=0; i < ALFABETO; i++){
-		novo->filhos[i] = NULL;
-	}
+///
+/// \brief inicializa a varivel
+/// \return retorna a trie inicializada
+/// \pre variavel inexistente
+/// \pos variavel existente
+///
+Trie *inicializa();
 
-	return novo;
-};
+///
+/// \brief insere a palavra na trie
+/// \param raiz: raiz da trie
+/// \param s: palavra a ser inserida
+/// \pre nenhuma
+/// \pos trie com a palavra inserida
+///
+void insere(Trie *raiz, char *s);
 
-void insere(Trie *raiz, char *s){
-	Trie *aux = raiz;
+///
+/// \brief puxa do arquivo para inserir a palavra na trie
+/// \param raiz: raiz da trie
+/// \param dicionario: arquivo contendo todas as palavras a serem inseridas
+/// \pre nenhuma
+/// \pos trie com as palavras inseridas
+///
+void insere_arq(Trie *raiz,FILE *dicionario);
 
-	while(*s){
-		if(aux->filhos[*s - 'a'] == NULL){
-			aux->filhos[*s - 'a'] = inicializa();
-		}
-		aux = aux->filhos[*s - 'a'];
+///
+/// \brief printa o dicionario inserido
+/// \param raiz: raiz da trie
+/// \param palavra: palavra a ser incrementada para ser printada
+/// \param indice: posicao onde o caracter vai na palavra
+/// \pre trie inicializada com pelo menos uma palavra, ou seja, nao vazia
+/// \pos nenhuma
+///
+void printa(Trie *raiz, char palavra[],int indice);
 
-		s++;
-	}
-	aux->final = 1;
-}
+///
+/// \brief verifica se o nó passado tem algum filho
+/// \param raiz: raiz da trie
+/// \return retorna 1 se ele acha algum filho, 0 caso o contrario
+/// \pre nenhuma
+/// \pos nenhuma
+///
+int verifica_filho(Trie *raiz);
 
-void insere_arq(Trie *raiz,FILE *dicionario ,char *linhaArq){
-	int i = 0, tam_lido;
-	char palavra[100];
+///
+/// \brief remove a palavra da trie
+/// \param raiz: raiz da trie
+/// \param s: palavra a ser removida
+/// \return 1 para deletar os pais e 0 para nao deletar os pais
+/// \pre nenhuma
+/// \pos trie com a palavra removida
+///
+int remover(Trie **raiz, char *s);
 
-	while (!feof(dicionario)){
-		fscanf(dicionario,"%s",palavra);
-		insere(raiz,palavra);
-	}
-}
+///
+/// \brief puxa do arquivo para remover as palavras da trie
+/// \param raiz: raiz da trie
+/// \pre nenhuma
+/// \pos trie com as palavras removidas
+///
+void remove_stopwords(Trie **raiz);
 
-void printa(Trie *raiz, char palavra[],int indice){
-	int i;
+///
+/// \brief funcao auxiliar para a semelhantes, mesma coisa que o printa porém printa no max dez palavras
+/// \param raiz: raiz da trie
+/// \param s: palavra a ser incrementada para printar
+/// \param indice: onde ira ser incrementado o caracter na palavra
+/// \param contador: contador de 0 ate 9 para printar no maximo dez palavras
+/// \pre nenhuma
+/// \pos nenhuma
+///
+void printa_aux(Trie *raiz, char palavra[],int indice,int *contador);
 
-	if(raiz->final == 1){
-		palavra[indice] = '\0';
-		printf("+------------------------------------+\n");
-		printf("|         %-27s|\n",palavra);
-		printf("+------------------------------------+\n");
-	}
+///
+/// \brief consulta a palavra na trie
+/// \param raiz: raiz da trie
+/// \pre nenhuma
+/// \pos nenhuma
+///
+void semelhantes(Trie *raiz);
 
-	for (i = 0; i < ALFABETO; i++){
-		if(raiz->filhos[i] != NULL){
-			palavra[indice] = i + 'a';
-			printa(raiz->filhos[i],palavra,indice+1);
-		}
-	}
-}
-
-int verifica_filho(Trie *raiz){
-	int i;
-
-	for(i=0; i<ALFABETO; i++){
-		//verifica se achou um filho
-		if(raiz->filhos[i]){
-			return 1;
-		}
-	}
-	return 0;
-}
-
-int remover(Trie **raiz, char *s){
-	if(*raiz == NULL){
-		return 0;
-	}
-
-	if(*s){
-		//recursiva para achar o char correspondende
-		//se for 1 deleta o no atual
-		//(se nao for o final) 
-		if(*raiz != NULL && (*raiz)->filhos[*s - 'a'] != NULL && remover(&((*raiz)->filhos[*s - 'a']),s + 1) && (*raiz)->final == 0){
-			if(!verifica_filho(*raiz)){
-				free(*raiz);
-				(*raiz) = NULL;
-				return 1;
-			}else{
-				return 0;
-			}
-		}
-	}
-
-	if(*s == '\0' && (*raiz)->final){
-		if(!verifica_filho(*raiz)){
-			free(*raiz);
-			(*raiz) = NULL;
-			return 1;
-		}
-		else{
-			(*raiz)->final = 0;
-			return 0;
-		}
-	}
-	return 0;
-}
-
-void remove_stopwords(Trie **raiz){
-	int i = 0, tam_lido;
-	char palavra[100];
-	FILE *stopwords = fopen("stopwords.txt","r");
-
-	while (!feof(stopwords)){
-		fscanf(stopwords,"%s",palavra);
-		remover(&(*raiz),palavra);
-	}
-	fclose(stopwords);
-}
-
-void printa_aux(Trie *raiz, char palavra[],int indice,int *contador){
-	int i;
-
-	if(raiz->final == 1){
-		palavra[indice] = '\0';
-		(*contador)++;
-		printf("+------------------------------------+\n");
-		printf("|         %-27s|\n",palavra);
-		printf("+------------------------------------+\n");
-	}
-
-	for (i = 0; i < ALFABETO && (*contador) < 10; i++){
-		if(raiz->filhos[i] != NULL){
-			palavra[indice] = i + 'a';
-			printa_aux(raiz->filhos[i],palavra,indice+1,contador);
-		}
-	}
-}
-
-void semelhantes(Trie *raiz){
-	char palavra[100];
-	int indice, i, contador = 0;
-
-	menu_semelhantes();
-	gotoXY(10,2);
-	scanf("%s",palavra);
-
-	indice = strlen(palavra);
-
-	for(i=0; i < indice; i++){
-		raiz = raiz->filhos[palavra[i] - 'a'];
-	}
-
-	if(raiz == NULL){
-		erro_prefix();
-		return;
-	}
-
-	printa_aux(raiz,palavra,indice,&contador);
-}
+#endif

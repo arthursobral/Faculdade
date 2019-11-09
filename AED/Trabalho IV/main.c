@@ -1,5 +1,4 @@
 #include "trie.h"
-#include "menu.h"
 
 int main(int arqc, const char *arqv[]){
 	Trie *raiz = inicializa();
@@ -9,8 +8,8 @@ int main(int arqc, const char *arqv[]){
 
     nomeArquivo = nome_Arq(arqv+1);
 
-    dicionario = fopen("teste.txt","r");
-    insere_arq(raiz,dicionario,linhaArq);
+    dicionario = fopen(nomeArquivo,"r");
+    insere_arq(raiz,dicionario);
     opcao = menu_ini();
 
     while(opcao!=0){
@@ -22,12 +21,11 @@ int main(int arqc, const char *arqv[]){
             break;
         case 2:
             system("cls");
-            semelhantes(raiz);
+            consultar(raiz);
             break;
         case 3:
             system("cls");
             remove_stopwords(&raiz);
-            msg_sucess();
             break;
         default:
             system("cls");
