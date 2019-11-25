@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "menu.h"
 #define ALFABETO 26
 
 typedef struct trie{
@@ -103,11 +104,34 @@ void remove_stopwords(Trie **raiz);
 void printa_aux(Trie *raiz, char palavra[],int indice,int *contador);
 
 ///
-/// \brief consulta a palavra na trie
+/// \brief verifica se sao palavras semelhantes
+/// \param s1: string contendo a palavra
+/// \param s2: string contendo o prefixo
+/// \param dife: o total maximo que pode ter de diferença entre a palavra e o prefixo
+/// \return 0 caso a nao serem semelhantes conforme a variavel dife e 1 caso o contrario
+/// \pre nenhuma
+/// \post nenhuma
+///
+int semelhantes(char* s1, char* s2, int dife);
+
+///
+/// \brief funcao auxiliar para a semelhantes
 /// \param raiz: raiz da trie
+/// \param palavra: palavra a ser incrementada para printar
+/// \param prefix: prefixo para comparar a diferenca entre a palavra
+/// \param indice: onde ira ser incrementado o caracter na palavra
+/// \param dife: total de diferença entre a palavra e o prefix  
 /// \pre nenhuma
 /// \pos nenhuma
 ///
-void semelhantes(Trie *raiz);
+void printa_semelhantes(Trie *raiz, char *palavra, char *prefix, int indice,int dife);
+
+///
+/// \brief funcao para a chamada da funcao semelhantes
+/// \param raiz: raiz da trie
+/// \pre trie nao vazia
+/// \post nenhuma
+///
+void chama_semelhantes(Trie *raiz);
 
 #endif

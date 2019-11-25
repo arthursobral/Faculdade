@@ -1,5 +1,4 @@
 #include "trie.h"
-#include "menu.h"
 
 ///
 /// \brief transforma o que foi lido do cmd para string 
@@ -228,9 +227,7 @@ void printa_aux(Trie *raiz, char palavra[],int indice,int *contador){
 	if(raiz->final == 1){
 		palavra[indice] = '\0';
 		(*contador)++;
-		printf("+------------------------------------+\n");
-		printf("|         %-27s|\n",palavra);
-		printf("+------------------------------------+\n");
+		printf("%s, ",palavra);
 	}
 
 	for (i = 0; i < ALFABETO && (*contador) < 10; i++){
@@ -263,7 +260,12 @@ void consultar(Trie *raiz){
 	}
 
 	for(i=0; i < indice; i++){
-		raiz = raiz->filhos[palavra[i] - 'a'];
+		if(raiz->filhos[palavra[i] - 'a'] != NULL){
+			raiz = raiz->filhos[palavra[i] - 'a'];
+		}else{
+			erro_prefix();
+			return;
+		}
 	}
 
 	if(raiz == NULL){
@@ -271,5 +273,95 @@ void consultar(Trie *raiz){
 		return;
 	}
 
+	printf("\n");
 	printa_aux(raiz,palavra,indice,&contador);
+	printf("\n");
+}
+
+///
+/// \brief verifica se sao palavras semelhantes
+/// \param s1: string contendo a palavra
+/// \param s2: string contendo o prefixo
+/// \param dife: o total maximo que pode ter de diferença entre a palavra e o prefixo
+/// \return 0 caso a nao serem semelhantes conforme a variavel dife e 1 caso o contrario
+/// \pre nenhuma
+/// \post nenhuma
+///
+int semelhantes(char* s1, char* s2, int dife){
+    if(dife<0)
+        return 0;
+
+    if(!*s1 && !*s2)
+        return 1;
+
+    if(!*s1)
+        return strlen(s2) <=dife;
+
+    if(!*s2)
+        return strlen(s1) <= dife;
+
+    if(*s1 == *s2)
+        return semelhantes(s1+1, s2+1, dife);
+
+    --dife;
+
+    if(semelhantes(s1, s2+1, dife))
+        return 1;
+
+    if(semelhantes(s1+1, s2, dife))
+        return 1;
+
+    if(semelhantes(s1+1, s2+1, dife))
+        return 1;
+
+    return 0;
+}
+
+///
+/// \brief funcao auxiliar para a semelhantes
+/// \param raiz: raiz da trie
+/// \param palavra: palavra a ser incrementada para printar
+/// \param prefix: prefixo para comparar a diferenca entre a palavra
+/// \param indice: onde ira ser incrementado o caracter na palavra
+/// \param dife: total de diferença entre a palavra e o prefix  
+/// \pre nenhuma
+/// \pos nenhuma
+///
+void printa_semelhantes(Trie *raiz, char *palavra, char *prefix, int indice,int dife){
+	if(raiz->final == 1 && semelhantes(palavra,prefix,dife)){
+		palavra[indice] = '\0';
+		printf("+------------------------------------+\n");
+		printf("|         %-27s|\n",palavra);
+		printf("+------------------------------------+\n");
+	}
+
+	int i;
+
+	for (i = 0; i < ALFABETO; i++){
+		if(raiz->filhos[i] != NULL){
+			palavra[indice] = i + 'a';
+			printa_semelhantes(raiz->filhos[i],palavra,prefix,indice+1,dife);
+		}
+	}
+}
+
+///
+/// \brief funcao para a chamada da funcao semelhantes
+/// \param raiz: raiz da trie
+/// \pre trie nao vazia
+/// \post nenhuma
+///
+void chama_semelhantes(Trie *raiz){
+	char palavra[256], prefix[256];
+	int qtd;
+
+	system("cls");
+	menu_semelhantes();
+	gotoXY(10,2);
+	scanf("%s",prefix);
+	gotoXY(10,5);
+	scanf("%d",&qtd);
+
+	printf("\n");
+	printa_semelhantes(raiz,palavra,prefix,0,qtd);
 }

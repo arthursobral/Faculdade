@@ -55,4 +55,9 @@ void menu_remove();
 ///
 void erro_arq();
 
+///
+/// \brief printa menu para consultar semelhantes da palavra
+///
+void menu_semelhantes();
+
 #endif

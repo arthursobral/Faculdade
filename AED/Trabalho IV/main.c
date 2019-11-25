@@ -15,20 +15,24 @@ int main(int arqc, const char *arqv[]){
     while(opcao!=0){
         switch (opcao){
         case 1:
-            system("cls");
+        	system("cls");
             msg_dicionario();
             printa(raiz,s,0);
             break;
         case 2:
-            system("cls");
+        	system("cls");
             consultar(raiz);
             break;
         case 3:
-            system("cls");
+        	system("cls");
             remove_stopwords(&raiz);
             break;
+        case 4:
+        	system("cls");
+        	chama_semelhantes(raiz);
+        	break;
         default:
-            system("cls");
+        	system("cls");
             erro();
             break;
         }

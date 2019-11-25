@@ -30,10 +30,11 @@ int menu_ini(){
     printf("| 1 - Imprimir                       |\n");
     printf("| 2 - Consultar Palavra              |\n");
     printf("| 3 - Remover                        |\n");
+    printf("| 4 - Semelhantes                    |\n");
     printf("| 0 - Sair                           |\n");
     printf("|                                    |\n");
     printf("+------------------------------------+\n");
-    gotoXY(18,7);
+    gotoXY(18,8);
     scanf("%d",&n);
 
     return n;
@@ -83,9 +84,9 @@ void erro_prefix(){
 /// \brief printa dicionario
 ///
 void msg_dicionario(){
-    printf("+------------------------------------+\n");
+    printf("++++++++++++++++++++++++++++++++++++++\n");
     printf("|         Dicionario                 |\n");
-    printf("+------------------------------------+\n");    
+    printf("++++++++++++++++++++++++++++++++++++++\n");    
 }
 
 ///
@@ -104,5 +105,18 @@ void menu_remove(){
 void erro_arq(){
     printf("+------------------------------------+\n");
     printf("|           Arquivo vazio            |\n");
+    printf("+------------------------------------+\n");
+}
+
+///
+/// \brief printa menu para consultar semelhantes da palavra
+///
+void menu_semelhantes(){
+    printf("+------------------------------------+\n");
+    printf("|      Digite o prefixo desejado:    |\n");
+    printf("|                                    |\n");
+    printf("+------------------------------------+\n");
+    printf("|     Digite a distancia desejada:   |\n");
+    printf("|                                    |\n");
     printf("+------------------------------------+\n");
 }
