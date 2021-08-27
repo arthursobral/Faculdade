@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "grafo.h"
 #include "arquivo.h"
+#include "algoritmos.h"
 
 int main(){
     FILE *entrada;
@@ -10,9 +11,11 @@ int main(){
 
     Grafo *grafo = NULL;
 
-    printf("1 - Carregar arquivo\n");
-    printf("2 - Algoritmos\n");
-    printf("0 - Sair\n");
+    printf("******************************\n");
+    printf("* 1 - Carregar arquivo       *\n");
+    printf("* 2 - Algoritmos             *\n");
+    printf("* 0 - Sair                   *\n");
+    printf("******************************\n");
     scanf("%d%*c", &opcao);
 
     while(opcao != 0){
