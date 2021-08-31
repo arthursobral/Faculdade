@@ -12,6 +12,6 @@ typedef struct grafo{
 
 Grafo* inicia_grafo(char orientado[]);
 
-int ** aloca_inicial(int v);
+int** aloca_inicial(int v);
 
 #endif // GRAFO_H

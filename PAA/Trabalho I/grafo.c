@@ -12,7 +12,7 @@ Grafo* inicia_grafo(char orientado[]){
     return novo;
 }
 
-int ** aloca_inicial(int v){
+int** aloca_inicial(int v){
     int** alvo = (int**)malloc(sizeof(int*)*v);
 
     for(int i = 0; i < v; i++){

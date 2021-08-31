@@ -1,43 +1,61 @@
 #ifndef ALGORITMOS_H
 #define ALGORITMOS_H
-#include"grafo.h"
-#include<stdio.h>
+#include "arquivo.h"
+#include "grafo.h"
+#include "fila.h"
 
-//profundidade
+// estrutura para o algoritmo de profundidade
 typedef struct profundidade{
-    //cor
+    // cor do vertice
     char cor;
-    //predecessor
-    char pred;
-    //tempo de descoberta
-    int d, t;
-    //adjacentes
-    int *adj;
-}Profundidade;
-
-
-//largura
-typedef struct largura{
-    //cor
-    char cor;
-    //predecessor
-    char pred;
-    //distancia
-    int d;
-    //adjacentes
-    int *adj;
-}Largura;
-
-//Bellman-Ford
-typedef struct bellmanford{
-    //peso
-    int d;
-    //predecessor
+    // vertice pai desse vertice
     int pred;
-}Bellman_Ford;
+    // tempo de descoberta e de final de exploração
+    int d, f;
+    // vertices adjacentes a esse vertice
+    int *adj;
 
-//Kruskal
+} Profundidade;
+
+// estrutura para o algoritmo de largura
+typedef struct largura{
+
+    // cor do vertice
+    char cor;
+    // vertice que precede esse vertice
+    int pred;
+    // distancia do nó origem
+    int d;
+    // vertices adjacentes
+    int *adj;
+} Largura;
+
+// estrutura para o algoritmo de Bellman-Ford
+typedef struct bellmanford {
+    // peso para chegar nesse vertice
+    int d;
+    // vertice que precede esse
+    int pred;
+} BellmanFord;
+
+
+// estrutura para algoritmo de Kruskal
+typedef struct aresta {
+    // vertice de origem da aresta, vertice de destino da aresta
+    int u, v;
+    // peso da aresta
+    int peso;
+} Aresta;
+
+// variavel para guardar o tempo de descoberta para o algoritmo de profundidade
+int timestamp;
 
 void menu_algoritmos(Grafo *g);
+
+void visita_profundidade(int vertice, Profundidade* busca, int n, int **ordem);
+
+void buscaProfundidade(Grafo *g, int inicial, int **res);
+
+int buscaLargura(Grafo *g, int origem, int **res);
 
 #endif // ALGORITMOS_H
