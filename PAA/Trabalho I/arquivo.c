@@ -32,7 +32,7 @@ void aloca_grafo(Grafo* novo){
 }
 
 void inicia_n_vertices(char linha[], Grafo* novo){
-    sscanf(linha,"V=%d%*c",&novo->total_vertices);
+    sscanf(linha,"V= %d%*c",&novo->total_vertices);
 
     aloca_grafo(novo);
 }
@@ -46,11 +46,11 @@ void inicia_arestas(char linha[], Grafo* novo){
     if((lin >= 0 && lin < novo->total_vertices) && (col >= 0 && col < novo->total_vertices)){
         novo->adjacentes[lin][col] = 1;
         novo->pesos[lin][col] = peso;
-    }
 
-    if(strcmp(novo->orientado, "nao") == 0){
-        novo->adjacentes[col][lin] = 1;
-        novo->pesos[col][lin] = peso;
+        if(strcmp(novo->orientado, "nao") == 0){
+            novo->adjacentes[col][lin] = 1;
+            novo->pesos[col][lin] = peso;
+        }
     }
 }
 
