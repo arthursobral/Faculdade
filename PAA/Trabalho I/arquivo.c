@@ -3,6 +3,11 @@
 #include<string.h>
 #include "arquivo.h"
 
+///
+/// \brief função para diferenciar o tipo da linha que esta sendo lida
+/// \param linha linha lida do arquivo para determinar seu tipo
+/// \return número que indica qual o tipo da linha
+///
 int tipo_linha(char linha[]){
     if(strncmp(linha,"orientado",9) == 0){
         return ORIENTADO;
@@ -15,6 +20,11 @@ int tipo_linha(char linha[]){
     }
 }
 
+///
+/// \brief função que verifica qual o tipo de orientação que esta no arquivo e aloca a estrutura
+/// \param linha linha do arquivo que sera lida
+/// \return o grafo devidamente alocado e com seu tipo de orientação armazenado
+///
 Grafo* inicia_orientado(char linha[]){
     Grafo* novo;
     char orientado[4];
@@ -26,17 +36,34 @@ Grafo* inicia_orientado(char linha[]){
     return novo;
 }
 
+///
+/// \brief função para alocar os campos da estrutura grafo
+/// \param novo grafo que sera alocado
+/// \return nenhum
+///
 void aloca_grafo(Grafo* novo){
     novo->pesos = aloca_inicial(novo->total_vertices);
     novo->adjacentes = aloca_inicial(novo->total_vertices);
 }
 
+///
+/// \brief função responsavel para armazenar a quantidade total de vertices
+/// \param linha linha do arquivo a ser lida
+/// \param novo grafo aonde sera inserido os dados passados
+/// \return nenhum
+///
 void inicia_n_vertices(char linha[], Grafo* novo){
     sscanf(linha,"V= %d%*c",&novo->total_vertices);
 
     aloca_grafo(novo);
 }
 
+///
+/// \brief função responsavel para ler a linha de arestas do arquivo armazenando u, v e o peso no grafo
+/// \param linha linha do arquivo a ser lida
+/// \param novo grafo aonde sera inserido os dados passados
+/// \return nenhum
+///
 void inicia_arestas(char linha[], Grafo* novo){
     char aux[300];
     int lin, col, peso, trace;
@@ -54,6 +81,11 @@ void inicia_arestas(char linha[], Grafo* novo){
     }
 }
 
+///
+/// \brief função que pega o arquivo aberto e lê as linhas dele armazenando em um grafo
+/// \param entrada arquivo de onde sera lido o grafo
+/// \return variavel do tipo Grafo contendo os dados passados pelo arquivo
+///
 Grafo* le_arq(FILE* entrada){
     Grafo* novo = NULL;
     char linha[500];
