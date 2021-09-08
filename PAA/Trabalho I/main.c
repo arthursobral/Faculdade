@@ -30,6 +30,7 @@ int main(){
 
                 if(entrada == NULL){
                     printf("Erro no arquivo\n");
+                    system("pause");
                     break;
                 }
 
